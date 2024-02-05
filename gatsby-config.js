@@ -8,8 +8,6 @@
  * @type {import('gatsby').GatsbyConfig}
  */
 module.exports = {
-  // pathPrefix: "/emersonmde.github.io",
-  // assetPrefix: "https://emersonmde.github.io/",
   siteMetadata: {
     title: `Matthew Emerson`,
     author: {
