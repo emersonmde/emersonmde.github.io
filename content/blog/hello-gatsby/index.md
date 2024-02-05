@@ -30,21 +30,21 @@ altogether.
 
 ## Enter GitHub Actions
 
-My first exposure to GitHub Actions was from the book [Zero To Production In Rust](https://www.zero2prod.com/index.html?country_code=US) 
+My first exposure to [GitHub Actions](https://github.com/features/actions) was from the book [Zero To Production In Rust](https://www.zero2prod.com/index.html?country_code=US) 
 which has a section on CI/CD pipelines. The book provides a single workflow 
 configuration file, less than 100 lines, that can be used as a start for any Rust 
 project that includes building, testing, linting, formatting, and code coverage. 
 After years of working with proprietary and public CI/CD solutions, the ease of 
-use and general applicability of GitHub actions blew me away.
+use and general applicability of GitHub Actions blew me away.
 
-One of the best parts of GitHub actions is the extensive community that have built 
-out many common CI/CD tasks, one of which is deploying directly to GitHub pages. 
+One of the best parts of GitHub Actions is the extensive community that have built 
+out many common CI/CD tasks, one of which is deploying directly to [GitHub Pages](https://pages.github.com/). 
 Without the need to setup any keys, permissions, or targets, an action such as 
 [JamesIves/github-pages-deploy-action](https://github.com/JamesIves/github-pages-deploy-action) can deploy any directory from the build 
 directly to a branch (such as `gh-pages`).
 
 Here is the workflow I've been using with Gatsby (more on this in a minute), but it 
-should work with any node static site build:
+should work with any node build:
 
 ```yaml
 name: Build  
@@ -74,19 +74,23 @@ jobs:
           folder: public
 ```
 
-Each `uses` directive invokes an action with the parameters specified in the `with` block. Need to add a step, change the triggers, or re-order steps? No problem, each time this file is pushed upstream, the workflow automatically changes. 
+Each `uses` directive invokes an action with the parameters specified in the `with` 
+block. Need to add a step, change the triggers, or re-order steps? No problem, 
+each time this file is pushed upstream, the workflow automatically changes. 
 
 This was exactly what I was looking for. The best part about this workflow, it deploys 
 to GitHub Pages which is completely free! No more worrying about the hidden cost 
 of auto scaling serverless solutions. The last piece of the puzzle was a way to 
-manage and edit blog posts as markdown files without the need to create a bespoke backend solution. Thats where Gatsby comes in.
+manage and edit blog posts as markdown files without the need to create a bespoke 
+backend solution. Thats where Gatsby comes in.
 
 ## The Almost Great Gatsby
 
-Gatsby is an open source framework based on React that includes a GraphQL data 
-layer and works out of the box to compile and build fully featured React 
-websites. There are also many starter templates that make it easy to get up 
-and running. In this case, I chose to start with the `gatsby-starter-blog`:
+[Gatsby](https://www.gatsbyjs.com/) is an open source framework based on React that includes a 
+[GraphQL data layer](https://www.netlify.com/platform/connect/) and works out of the box to compile 
+and build fully featured React websites. There are also many starter templates that 
+make it easy to get up and running. In this case, I chose to start with the 
+[Gatsby's Starter Blog](https://github.com/gatsbyjs/gatsby-starter-blog):
 
 1. Install Gatsby:
 ```sh
@@ -109,12 +113,12 @@ layer to find markdown files corresponding to blog posts and combine that with w
 metadata. The results are then rendered as HTML using React components.
 
 This works incredibly well. Each blog post is plain markdown in a directory. By using 
-markdown saved locally, I can use something like Obsidian that has great markdown 
-support along with vim motions. The metadata is defined in the `gatsby-config.js` 
-file which makes it easy to reference in any component. Each query is run at build 
-time to generate the necessary static assets which can be uploaded to any 
-static website host. Also since Gatsby is a React based framework, there was no 
-need for me to learn yet another frontend framework. 
+markdown saved locally, I can use something like [Obsidian](https://obsidian.md/), a markdown
+focused editor with vim motions, to create and edit posts. The metadata is defined in 
+the `gatsby-config.js` file which makes it easy to reference in any component. 
+Each query is run at build time to generate the necessary static assets which can 
+be uploaded to any static website host. Also since Gatsby is a React based 
+framework, there was no need for me to learn yet another frontend framework. 
 
 Alright, what's the catch? So far everything I've wanted to do has been on the 
 happy path. Its not clear how much trouble it would be to customize Gatsby, 
@@ -127,7 +131,7 @@ it's worth.
 
 ## Final Thoughts
 
-Overall I'm extremely happy with the current setup. GitHub Actions and Pages have 
+Overall I'm really happy with the current setup. GitHub Actions and Pages have 
 been a true pleasure to work with compared to some other solutions. I'm excited to 
 take full advantage of the power and speed of Gatsby, but cautious of the complexity 
 it may add when maintaining this project long term. 
