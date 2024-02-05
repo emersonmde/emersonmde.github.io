@@ -21,19 +21,19 @@ wrestling with the CDK or the pre-built WYSIWYG component meant I just avoided
 making any improvements and eventually abandoned the idea of blogging
 altogether.</p>
 <h2>Enter GitHub Actions</h2>
-<p>My first exposure to GitHub Actions was from the book <a href="https://www.zero2prod.com/index.html?country_code=US">Zero To Production In Rust</a>
+<p>My first exposure to <a href="https://github.com/features/actions">GitHub Actions</a> was from the book <a href="https://www.zero2prod.com/index.html?country_code=US">Zero To Production In Rust</a>
 which has a section on CI/CD pipelines. The book provides a single workflow
 configuration file, less than 100 lines, that can be used as a start for any Rust
 project that includes building, testing, linting, formatting, and code coverage.
 After years of working with proprietary and public CI/CD solutions, the ease of
-use and general applicability of GitHub actions blew me away.</p>
-<p>One of the best parts of GitHub actions is the extensive community that have built
-out many common CI/CD tasks, one of which is deploying directly to GitHub pages.
+use and general applicability of GitHub Actions blew me away.</p>
+<p>One of the best parts of GitHub Actions is the extensive community that have built
+out many common CI/CD tasks, one of which is deploying directly to <a href="https://pages.github.com/">GitHub Pages</a>.
 Without the need to setup any keys, permissions, or targets, an action such as
 <a href="https://github.com/JamesIves/github-pages-deploy-action">JamesIves/github-pages-deploy-action</a> can deploy any directory from the build
 directly to a branch (such as <code class="language-text">gh-pages</code>).</p>
 <p>Here is the workflow I've been using with Gatsby (more on this in a minute), but it
-should work with any node static site build:</p>
+should work with any node build:</p>
 <div class="gatsby-highlight" data-language="yaml"><pre class="language-yaml"><code class="language-yaml"><span class="token key atrule">name</span><span class="token punctuation">:</span> Build  
 <span class="token key atrule">on</span><span class="token punctuation">:</span>  
   <span class="token key atrule">push</span><span class="token punctuation">:</span>  
@@ -59,16 +59,20 @@ should work with any node static site build:</p>
         <span class="token key atrule">with</span><span class="token punctuation">:</span>  
           <span class="token key atrule">branch</span><span class="token punctuation">:</span> gh<span class="token punctuation">-</span>pages  
           <span class="token key atrule">folder</span><span class="token punctuation">:</span> public</code></pre></div>
-<p>Each <code class="language-text">uses</code> directive invokes an action with the parameters specified in the <code class="language-text">with</code> block. Need to add a step, change the triggers, or re-order steps? No problem, each time this file is pushed upstream, the workflow automatically changes.</p>
+<p>Each <code class="language-text">uses</code> directive invokes an action with the parameters specified in the <code class="language-text">with</code>
+block. Need to add a step, change the triggers, or re-order steps? No problem,
+each time this file is pushed upstream, the workflow automatically changes.</p>
 <p>This was exactly what I was looking for. The best part about this workflow, it deploys
 to GitHub Pages which is completely free! No more worrying about the hidden cost
 of auto scaling serverless solutions. The last piece of the puzzle was a way to
-manage and edit blog posts as markdown files without the need to create a bespoke backend solution. Thats where Gatsby comes in.</p>
+manage and edit blog posts as markdown files without the need to create a bespoke
+backend solution. Thats where Gatsby comes in.</p>
 <h2>The Almost Great Gatsby</h2>
-<p>Gatsby is an open source framework based on React that includes a GraphQL data
-layer and works out of the box to compile and build fully featured React
-websites. There are also many starter templates that make it easy to get up
-and running. In this case, I chose to start with the <code class="language-text">gatsby-starter-blog</code>:</p>
+<p><a href="https://www.gatsbyjs.com/">Gatsby</a> is an open source framework based on React that includes a
+<a href="https://www.netlify.com/platform/connect/">GraphQL data layer</a> and works out of the box to compile
+and build fully featured React websites. There are also many starter templates that
+make it easy to get up and running. In this case, I chose to start with the
+<a href="https://github.com/gatsbyjs/gatsby-starter-blog">Gatsby's Starter Blog</a>:</p>
 <ol>
 <li>Install Gatsby:</li>
 </ol>
@@ -86,12 +90,12 @@ gatsby develop</code></pre></div>
 layer to find markdown files corresponding to blog posts and combine that with website
 metadata. The results are then rendered as HTML using React components.</p>
 <p>This works incredibly well. Each blog post is plain markdown in a directory. By using
-markdown saved locally, I can use something like Obsidian that has great markdown
-support along with vim motions. The metadata is defined in the <code class="language-text">gatsby-config.js</code>
-file which makes it easy to reference in any component. Each query is run at build
-time to generate the necessary static assets which can be uploaded to any
-static website host. Also since Gatsby is a React based framework, there was no
-need for me to learn yet another frontend framework.</p>
+markdown saved locally, I can use something like <a href="https://obsidian.md/">Obsidian</a>, a markdown
+focused editor with vim motions, to create and edit posts. The metadata is defined in
+the <code class="language-text">gatsby-config.js</code> file which makes it easy to reference in any component.
+Each query is run at build time to generate the necessary static assets which can
+be uploaded to any static website host. Also since Gatsby is a React based
+framework, there was no need for me to learn yet another frontend framework.</p>
 <p>Alright, what's the catch? So far everything I've wanted to do has been on the
 happy path. Its not clear how much trouble it would be to customize Gatsby,
 although it does support plugins. Also including a full GraphQL data layer on
@@ -101,7 +105,7 @@ not a big fan of learning GraphQL to access files and data, but only time will t
 if scaling or extending this website in the future proves to be more trouble than
 it's worth.</p>
 <h2>Final Thoughts</h2>
-<p>Overall I'm extremely happy with the current setup. GitHub Actions and Pages have
+<p>Overall I'm really happy with the current setup. GitHub Actions and Pages have
 been a true pleasure to work with compared to some other solutions. I'm excited to
 take full advantage of the power and speed of Gatsby, but cautious of the complexity
 it may add when maintaining this project long term.</p>
@@ -112,4 +116,4 @@ GitHub</a>.</p></section><hr/></article><nav class="blog-post-nav"><ul style="di
           >
             window.___chunkMapping="{\"app\":[\"/app-0618d532e78298f396fa.js\"],\"component---src-pages-404-js\":[\"/component---src-pages-404-js-15d57bdc0057175ce9d7.js\"],\"component---src-pages-index-js\":[\"/component---src-pages-index-js-eb0a7826676db71341a9.js\"],\"component---src-pages-using-typescript-tsx\":[\"/component---src-pages-using-typescript-tsx-8434c2e3ac20b262a9bf.js\"],\"component---src-templates-blog-post-js\":[\"/component---src-templates-blog-post-js-1be20a5709a04d1b9235.js\"]}";
           </script>
-        <script>window.___webpackCompilationHash="a3e516231d05174fe6e0";</script><script src="/webpack-runtime-b3fe2bf32f091591a667.js" async></script><script src="/framework-fa72f38dadad6cb45b0e.js" async></script><script src="/app-0618d532e78298f396fa.js" async></script><!-- slice-end id="_gatsby-scripts-1" --></body></html>
+        <script>window.___webpackCompilationHash="0cea4ee80f46cdf23036";</script><script src="/webpack-runtime-1d5b9137b9ea9ecb60d4.js" async></script><script src="/framework-fa72f38dadad6cb45b0e.js" async></script><script src="/app-0618d532e78298f396fa.js" async></script><!-- slice-end id="_gatsby-scripts-1" --></body></html>
