@@ -116,13 +116,14 @@ time to generate the necessary static assets which can be uploaded to any
 static website host. Also since Gatsby is a React based framework, there was no 
 need for me to learn yet another frontend framework. 
 
-So where's the catch? So far everything I've wanted to do has been on the happy path. 
-Its not clear how much trouble it would be to customize Gatsby, although it does support 
-plugins. Also including a full GraphQL data layer on top of React with additional support 
-for SEO, Server Side Rendering, Deferred Static Generation, and more means this is 
-anything but light weight. I'm already not a big fan of learning GraphQL to access files 
-and data, but only time will tell if scaling or extending this website in the future 
-proves to be more trouble than its worth. 
+Alright, what's the catch? So far everything I've wanted to do has been on the 
+happy path. Its not clear how much trouble it would be to customize Gatsby, 
+although it does support plugins. Also including a full GraphQL data layer on 
+top of React with additional support for SEO, Server Side Rendering, Deferred 
+Static Generation, and more means this is anything but light weight. I'm already 
+not a big fan of learning GraphQL to access files and data, but only time will tell 
+if scaling or extending this website in the future proves to be more trouble than 
+it's worth. 
 
 ## Final Thoughts
 
