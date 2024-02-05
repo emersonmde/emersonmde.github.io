@@ -7,6 +7,7 @@
 
 import * as React from "react"
 import { graphql, useStaticQuery } from "gatsby"
+import icon from "../images/icon.png"
 
 const Seo = ({ description, title, children }) => {
   const { site } = useStaticQuery(
@@ -42,6 +43,7 @@ const Seo = ({ description, title, children }) => {
       />
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={metaDescription} />
+      <meta name="og:image" content={icon} />
       {children}
     </>
   )
