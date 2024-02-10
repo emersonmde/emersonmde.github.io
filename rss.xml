@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Gatsby Starter Blog RSS Feed]]></title><description><![CDATA[A starter blog demonstrating what Gatsby can do.]]></description><link>https://gatsbystarterblogsource.gatsbyjs.io</link><generator>GatsbyJS</generator><lastBuildDate>Fri, 09 Feb 2024 16:42:24 GMT</lastBuildDate><item><title><![CDATA[The 1 Billion Row Challenge - Part 1]]></title><description><![CDATA[The 1 Billion Row Challenge is a
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Gatsby Starter Blog RSS Feed]]></title><description><![CDATA[A starter blog demonstrating what Gatsby can do.]]></description><link>https://gatsbystarterblogsource.gatsbyjs.io</link><generator>GatsbyJS</generator><lastBuildDate>Sat, 10 Feb 2024 01:16:34 GMT</lastBuildDate><item><title><![CDATA[The 1 Billion Row Challenge - Part 1]]></title><description><![CDATA[The 1 Billion Row Challenge is a
 competition to read and process a billion rows from a text file in Java. The
 README for the
 challenge…]]></description><link>https://gatsbystarterblogsource.gatsbyjs.io/1-billion-row-challenge-part-1/</link><guid isPermaLink="false">https://gatsbystarterblogsource.gatsbyjs.io/1-billion-row-challenge-part-1/</guid><pubDate>Thu, 08 Feb 2024 10:37:00 GMT</pubDate><content:encoded>&lt;p&gt;The &lt;a href=&quot;https://github.com/gunnarmorling/1brc&quot;&gt;1 Billion Row Challenge&lt;/a&gt; is a
@@ -263,7 +263,7 @@ data or splitting the lines. It would have been easy to run this through a
 profiler and see exactly what the problem was but who wants to spoil the
 ending of this journey? It was time to dig deeper!&lt;/p&gt;
 &lt;h2&gt;A wild SIMD appears&lt;/h2&gt;
-&lt;p&gt;SIMD, single instruction multiple data, a feature of most modern CPUs that
+&lt;p&gt;SIMD, single instruction multiple data, is a feature of most modern CPUs that
 executes the same operation on multiple data points in parallel (Figure 1).
 Utilizing Java&apos;s &lt;a href=&quot;https://docs.oracle.com/en/java/javase/17/docs/api/jdk.incubator.vector/jdk/incubator/vector/Vector.html&quot;&gt;Vector API&lt;/a&gt;,
 a platform independent API that compiles to native SIMD instructions on
@@ -365,12 +365,12 @@ exactly the parallel processing I was hoping for.&lt;/p&gt;
 &lt;h1&gt;Back To The Basics&lt;/h1&gt;
 &lt;p&gt;At this point I exhausted all the ideas I set out to test and started to
 look at how other entries were able to process the file so quickly. The
-first place entry at the time was able to process the file in 6 seconds and
-also made use of a memory mapped file and a ConcurrentHashMap. However,
-their solution also made heavy use of Java&apos;s &lt;code class=&quot;language-text&quot;&gt;Unsafe&lt;/code&gt; API that exposes many
-lower level operations that are usually reserved for internal use in the
-JDK. It was also on the deprecation path and would be removed in future
-versions.&lt;/p&gt;
+&lt;a href=&quot;https://github.com/gunnarmorling/1brc/blob/main/src/main/java/dev/morling/onebrc/CalculateAverage_royvanrijn.java&quot;&gt;first place entry&lt;/a&gt;
+at the time was able to process the file in 6 seconds and also made use of a
+memory mapped file and a ConcurrentHashMap. However, their solution also made
+heavy use of Java&apos;s &lt;code class=&quot;language-text&quot;&gt;Unsafe&lt;/code&gt; API that exposes many lower level operations that
+are usually reserved for internal use in the JDK. It was also on the
+deprecation path and would be removed in future versions.&lt;/p&gt;
 &lt;p&gt;However, one interesting thing I noticed was the use of Java&apos;s
 &lt;a href=&quot;https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html#parallelStream--&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;Collection.parallelStream()&lt;/code&gt;&lt;/a&gt;
 over the chunk ranges. I&apos;m a huge fan of the Stream API but I initially
@@ -413,7 +413,7 @@ between threads.&lt;/p&gt;
     &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;%s=%.2f/%.2f/%.2f&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; station&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; aggregator&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;min&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; mean&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; aggregator&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;max&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
 &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
 &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;collect&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;Collectors&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;joining&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;, &quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;h2&gt;Run Run Run&lt;/h2&gt;
+&lt;h2&gt;Make It So&lt;/h2&gt;
 &lt;p&gt;With some hesitation, I ran the program and was surprised to see it finished
 in almost half the time at 33 seconds. Overall I was pretty happy with the
 result. I could spend many more hours trying to learn the deprecated

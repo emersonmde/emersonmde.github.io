@@ -261,7 +261,7 @@ data or splitting the lines. It would have been easy to run this through a
 profiler and see exactly what the problem was but who wants to spoil the
 ending of this journey? It was time to dig deeper!</p>
 <h2>A wild SIMD appears</h2>
-<p>SIMD, single instruction multiple data, a feature of most modern CPUs that
+<p>SIMD, single instruction multiple data, is a feature of most modern CPUs that
 executes the same operation on multiple data points in parallel (Figure 1).
 Utilizing Java's <a href="https://docs.oracle.com/en/java/javase/17/docs/api/jdk.incubator.vector/jdk/incubator/vector/Vector.html">Vector API</a>,
 a platform independent API that compiles to native SIMD instructions on
@@ -363,12 +363,12 @@ exactly the parallel processing I was hoping for.</p>
 <h1>Back To The Basics</h1>
 <p>At this point I exhausted all the ideas I set out to test and started to
 look at how other entries were able to process the file so quickly. The
-first place entry at the time was able to process the file in 6 seconds and
-also made use of a memory mapped file and a ConcurrentHashMap. However,
-their solution also made heavy use of Java's <code class="language-text">Unsafe</code> API that exposes many
-lower level operations that are usually reserved for internal use in the
-JDK. It was also on the deprecation path and would be removed in future
-versions.</p>
+<a href="https://github.com/gunnarmorling/1brc/blob/main/src/main/java/dev/morling/onebrc/CalculateAverage_royvanrijn.java">first place entry</a>
+at the time was able to process the file in 6 seconds and also made use of a
+memory mapped file and a ConcurrentHashMap. However, their solution also made
+heavy use of Java's <code class="language-text">Unsafe</code> API that exposes many lower level operations that
+are usually reserved for internal use in the JDK. It was also on the
+deprecation path and would be removed in future versions.</p>
 <p>However, one interesting thing I noticed was the use of Java's
 <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html#parallelStream--"><code class="language-text">Collection.parallelStream()</code></a>
 over the chunk ranges. I'm a huge fan of the Stream API but I initially
@@ -411,7 +411,7 @@ between threads.</p>
     <span class="token keyword">return</span> <span class="token class-name">String</span><span class="token punctuation">.</span><span class="token function">format</span><span class="token punctuation">(</span><span class="token string">"%s=%.2f/%.2f/%.2f"</span><span class="token punctuation">,</span> station<span class="token punctuation">,</span> aggregator<span class="token punctuation">.</span>min<span class="token punctuation">,</span> mean<span class="token punctuation">,</span> aggregator<span class="token punctuation">.</span>max<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span>
 <span class="token punctuation">.</span><span class="token function">collect</span><span class="token punctuation">(</span><span class="token class-name">Collectors</span><span class="token punctuation">.</span><span class="token function">joining</span><span class="token punctuation">(</span><span class="token string">", "</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre></div>
-<h2>Run Run Run</h2>
+<h2>Make It So</h2>
 <p>With some hesitation, I ran the program and was surprised to see it finished
 in almost half the time at 33 seconds. Overall I was pretty happy with the
 result. I could spend many more hours trying to learn the deprecated
