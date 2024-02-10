@@ -308,7 +308,7 @@ ending of this journey? It was time to dig deeper!
 
 ## A wild SIMD appears
 
-SIMD, single instruction multiple data, a feature of most modern CPUs that 
+SIMD, single instruction multiple data, is a feature of most modern CPUs that 
 executes the same operation on multiple data points in parallel (Figure 1). 
 Utilizing Java's [Vector API](https://docs.oracle.com/en/java/javase/17/docs/api/jdk.incubator.vector/jdk/incubator/vector/Vector.html), 
 a platform independent API that compiles to native SIMD instructions on 
@@ -395,12 +395,12 @@ exactly the parallel processing I was hoping for.
 
 At this point I exhausted all the ideas I set out to test and started to 
 look at how other entries were able to process the file so quickly. The 
-first place entry at the time was able to process the file in 6 seconds and 
-also made use of a memory mapped file and a ConcurrentHashMap. However, 
-their solution also made heavy use of Java's `Unsafe` API that exposes many 
-lower level operations that are usually reserved for internal use in the 
-JDK. It was also on the deprecation path and would be removed in future 
-versions. 
+[first place entry](https://github.com/gunnarmorling/1brc/blob/main/src/main/java/dev/morling/onebrc/CalculateAverage_royvanrijn.java) 
+at the time was able to process the file in 6 seconds and also made use of a 
+memory mapped file and a ConcurrentHashMap. However, their solution also made 
+heavy use of Java's `Unsafe` API that exposes many lower level operations that 
+are usually reserved for internal use in the JDK. It was also on the 
+deprecation path and would be removed in future versions. 
 
 However, one interesting thing I noticed was the use of Java's 
 [`Collection.parallelStream()`](https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html#parallelStream--) 
@@ -449,7 +449,7 @@ String resultString = IntStream.range(0, processors + 2).parallel().mapToObj(i -
 .collect(Collectors.joining(", "));
 ```
 
-## Run Run Run
+## Make It So
 
 With some hesitation, I ran the program and was surprised to see it finished 
 in almost half the time at 33 seconds. Overall I was pretty happy with the 
