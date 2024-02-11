@@ -9,10 +9,10 @@
  */
 module.exports = {
   siteMetadata: {
-    title: `Matthew Emerson`,
+    title: `Error Signal`,
     author: {
       name: `Matthew Emerson`,
-      // summary: `who lives and works in San Francisco building useful things.`,
+      summary: `Turning 'how does that work?' into code.`,
     },
     description: `A starter blog demonstrating what Gatsby can do.`,
     siteUrl: `https://gatsbystarterblogsource.gatsbyjs.io/`,

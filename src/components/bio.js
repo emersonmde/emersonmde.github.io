@@ -1,10 +1,3 @@
-/**
- * Bio component that queries for data
- * with Gatsby's useStaticQuery component
- *
- * See: https://www.gatsbyjs.com/docs/how-to/querying-data/use-static-query/
- */
-
 import * as React from "react"
 import { useStaticQuery, graphql } from "gatsby"
 import { StaticImage } from "gatsby-plugin-image"
@@ -15,20 +8,15 @@ const Bio = () => {
       site {
         siteMetadata {
           author {
-            name
+            name   
             summary
-          }
-          social {
-            twitter
           }
         }
       }
     }
   `)
 
-  // Set these values by editing "siteMetadata" in gatsby-config.js
   const author = data.site.siteMetadata?.author
-  const social = data.site.siteMetadata?.social
 
   return (
     <div className="bio">
@@ -37,15 +25,25 @@ const Bio = () => {
         layout="fixed"
         formats={["auto", "webp", "avif"]}
         src="../images/profile-pic.jpeg"
-        width={50}
-        height={50}
+        width={70}
+        height={70}
         quality={95}
-        alt="Profile picture"
+        alt="Profile picture of Matthew Emerson"
       />
       {author?.name && (
-        <p>
-          Written by <strong>{author.name}</strong> {author?.summary || null}
-        </p>
+        <div className="bio-content">
+          <h3>{author.name}</h3>
+          <p className="bio-tagline">{author.summary}</p>
+          <div className="bio-links">
+            <a href="https://github.com/emersonmde" target="_blank" rel="noopener noreferrer">
+              {/* Use your preferred icon from a library  */}
+              <i className="fab fa-github fa-2x"></i>
+            </a>
+            <a href="https://memerson.dev" target="_blank" rel="noopener noreferrer">
+              <i className="fas fa-globe fa-2x"></i>
+            </a>
+          </div>
+        </div>
       )}
     </div>
   )

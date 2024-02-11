@@ -1,5 +1,7 @@
 import * as React from "react"
-import { graphql, Link } from "gatsby"
+import { Link, graphql } from "gatsby"
+
+import Bio from "../components/bio"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
 
@@ -25,6 +27,9 @@ const BlogPostTemplate = ({
           itemProp="articleBody"
         />
         <hr />
+        <footer>
+          <Bio />
+        </footer>
       </article>
       <nav className="blog-post-nav">
         <ul
