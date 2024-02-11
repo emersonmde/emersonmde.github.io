@@ -44,6 +44,9 @@ const Seo = ({ description, title, children }) => {
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={metaDescription} />
       <meta name="og:image" content={icon} />
+
+      <script defer data-domain="errorsignal.dev" src="https://plausible.io/js/script.js"></script>
+
       {children}
     </>
   )
