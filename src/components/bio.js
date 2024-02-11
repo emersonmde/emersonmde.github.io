@@ -1,6 +1,8 @@
 import * as React from "react"
 import { useStaticQuery, graphql } from "gatsby"
 import { StaticImage } from "gatsby-plugin-image"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faCode, faGlobe } from "@fortawesome/free-solid-svg-icons"
 
 const Bio = () => {
   const data = useStaticQuery(graphql`
@@ -36,11 +38,10 @@ const Bio = () => {
           <p className="bio-tagline">{author.summary}</p>
           <div className="bio-links">
             <a href="https://github.com/emersonmde" target="_blank" rel="noopener noreferrer">
-              {/* Use your preferred icon from a library  */}
-              <i className="fab fa-github fa-2x"></i>
+              <FontAwesomeIcon icon={faCode} size="1x" />
             </a>
             <a href="https://memerson.dev" target="_blank" rel="noopener noreferrer">
-              <i className="fas fa-globe fa-2x"></i>
+              <FontAwesomeIcon icon={faGlobe} size="1x" />
             </a>
           </div>
         </div>
