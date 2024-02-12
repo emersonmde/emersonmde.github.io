@@ -1,4 +1,231 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Gatsby Starter Blog RSS Feed]]></title><description><![CDATA[A starter blog demonstrating what Gatsby can do.]]></description><link>https://gatsbystarterblogsource.gatsbyjs.io</link><generator>GatsbyJS</generator><lastBuildDate>Mon, 12 Feb 2024 12:12:46 GMT</lastBuildDate><item><title><![CDATA[The 1 Billion Row Challenge - Part 1]]></title><description><![CDATA[The 1 Billion Row Challenge is a
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Gatsby Starter Blog RSS Feed]]></title><description><![CDATA[A starter blog demonstrating what Gatsby can do.]]></description><link>https://gatsbystarterblogsource.gatsbyjs.io</link><generator>GatsbyJS</generator><lastBuildDate>Mon, 12 Feb 2024 23:05:33 GMT</lastBuildDate><item><title><![CDATA[Plausible Analytics]]></title><description><![CDATA[I'm a strong believer in Robert Heinlein's quote, "When one teaches, two
+learn." To that end, my primary motivation to write these posts was…]]></description><link>https://gatsbystarterblogsource.gatsbyjs.io/plausible-analytics/</link><guid isPermaLink="false">https://gatsbystarterblogsource.gatsbyjs.io/plausible-analytics/</guid><pubDate>Sun, 11 Feb 2024 09:21:00 GMT</pubDate><content:encoded>&lt;p&gt;I&apos;m a strong believer in Robert Heinlein&apos;s quote, &quot;When one teaches, two
+learn.&quot; To that end, my primary motivation to write these posts was to
+reinforce my own understanding of the topics I touch on in my personal
+projects. However, I still hope to provide value to others who may be
+exploring these topics for the first time. While the first goal is mostly
+subjective, the second is more easily measured.&lt;/p&gt;
+&lt;h1&gt;The World of Analytics&lt;/h1&gt;
+&lt;p&gt;In my day job, analytics is often a crucial part of the software we build.
+Metrics and statistics are collected for just about anything measurable,
+from clicks, to API calls, to host metrics, and everything inbetween. Amazon
+has a huge array of tools and services for collecting, storing, and analyzing
+metrics. However, for my personal projects, I don&apos;t need anything nearly as
+complex, leaving aside the effort it would take to recreate similar tooling
+for use externally.&lt;/p&gt;
+&lt;p&gt;I was aware of services like Google Analytics that simplify the process of
+collecting and analyzing metrics, but I haven&apos;t really explored them. I&apos;m also
+aware of the privacy concerns that come with using Google Analytics, but I
+wasn&apos;t sure of what alternatives were available. When I set out on this
+journey, one of the first videos I stumbled upon was
+&lt;a href=&quot;https://www.youtube.com/watch?v=6xXSsu0YXWo&quot;&gt;a video&lt;/a&gt; by
+&lt;a href=&quot;https://www.youtube.com/@t3dotgg&quot;&gt;Theo - t3.gg&lt;/a&gt; where he showcases two
+alternatives to Google Analytics: Plausible and PostHog. While PostHog is
+incredible powerful, it&apos;s overkill for my needs. Plausible is exactly what I
+was looking for: a simple, open source, privacy-friendly alternative to
+Google Analytics.&lt;/p&gt;
+&lt;h1&gt;Setting Up Plausible&lt;/h1&gt;
+&lt;p&gt;Setting up Plausible can be incredibly simple. All you need to get started
+is an account and a script provided by Plausible that records events. Each
+new account comes with a 30 day free trial with no up front payment details
+required. After the free trial the service costs £9/month for up to 10,000
+page views with the option of &lt;a href=&quot;https://plausible.io/self-hosted-web-analytics&quot;&gt;self-hosting&lt;/a&gt;
+for free. In my case, another $12/month subscription wasn&apos;t ideal, but
+something I would gladly pay for a privacy focused alternative to the big
+players in the space.&lt;/p&gt;
+&lt;p&gt;Since there is no credit card required to sign up,
+&lt;a href=&quot;https://plausible.io/register&quot;&gt;creating an account&lt;/a&gt; was straight forward.
+After signing up, you register your domain in their dashboard and are
+presented with a script tag to include in your website.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;html&quot;&gt;&lt;pre class=&quot;language-html&quot;&gt;&lt;code class=&quot;language-html&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;script&lt;/span&gt; &lt;span class=&quot;token attr-name&quot;&gt;defer&lt;/span&gt; &lt;span class=&quot;token attr-name&quot;&gt;data-domain&lt;/span&gt;&lt;span class=&quot;token attr-value&quot;&gt;&lt;span class=&quot;token punctuation attr-equals&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&quot;&lt;/span&gt;yourdomain.com&lt;span class=&quot;token punctuation&quot;&gt;&quot;&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;token attr-name&quot;&gt;src&lt;/span&gt;&lt;span class=&quot;token attr-value&quot;&gt;&lt;span class=&quot;token punctuation attr-equals&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&quot;&lt;/span&gt;https://plausible.io/js/script.js&lt;span class=&quot;token punctuation&quot;&gt;&quot;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token script&quot;&gt;&lt;/span&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;script&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Simply replacing your domain with the domain you registered with Plausible
+and including this script in the head of your website is all you need to start
+collecting metrics.&lt;/p&gt;
+&lt;p&gt;This works for most websites, however, thanks to the
+ad blocker arms race, well known tracking scripts like this are usually
+blocked. Given my audience is likely to be more technically inclined, many of
+the visitors to my site are likely to have an ad blocker installed reducing
+the effectiveness of this approach. A primary reason I use an ad blocker is
+to protect against cross domain tracking from companies like Google and Meta,
+but I&apos;m not against website owners collecting metrics on their own site.
+Thankfully Plausible has a &lt;a href=&quot;https://plausible.io/docs/proxy/introduction&quot;&gt;guide on setting up a proxy&lt;/a&gt;
+to bypass the simple matching logic used by most ad blockers. In this guide
+they also provide a interesting breakdown of the privacy focused aspects of
+using Plausible:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Plausible is simply doing web analytics the way it was at the start before
+surveillance capitalism became the default business model of the web:&lt;/p&gt;
+&lt;p&gt;No cookies and other persistent identifiers.&lt;/p&gt;
+&lt;p&gt;No connection to the adtech, and surveillance capitalism.&lt;/p&gt;
+&lt;p&gt;No personal data is collected, and all stats are in aggregate only.&lt;/p&gt;
+&lt;p&gt;No cross-site or cross-device tracking.&lt;/p&gt;
+&lt;p&gt;You 100% own your website data, and it isn&apos;t sent to, shared with or sold to any third-parties.&lt;/p&gt;
+&lt;p&gt;Open source web analytics software that can be self-hosted.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;It is easy to re-host the script from any static file host, but one of the
+primary goals for &lt;a href=&quot;../hello-gatsby&quot;&gt;creating this website using Gatsby and GitHub Pages&lt;/a&gt;
+was to avoid the need for an API. Nevertheless, I wanted to set up a proxy API
+in order to get some useful metrics out of Plausible. Fortunately I had
+already set up an API using &lt;a href=&quot;https://aws.amazon.com/api-gateway/&quot;&gt;API Gateway&lt;/a&gt;
+defined in &lt;a href=&quot;https://aws.amazon.com/cdk/&quot;&gt;AWS&apos;s Cloud Development Kit (CDK)&lt;/a&gt; for
+a previous personal website. The biggest downside was I haven&apos;t touched it in
+over 2 years. After cutting through the deprecation messages and cobwebs it was
+easier than I expected to get the new endpoint working.&lt;/p&gt;
+&lt;h2&gt;API Gateway Proxy&lt;/h2&gt;
+&lt;p&gt;In Plausible&apos;s guide on &lt;a href=&quot;https://plausible.io/docs/proxy/introduction&quot;&gt;setting up a proxy&lt;/a&gt;,
+they provide samples for many different hosting services but none for API
+Gateway or CDK. The good news is this is only a few lines of code if you
+already have a API Gateway defined in CDK.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;typescript&quot;&gt;&lt;pre class=&quot;language-typescript&quot;&gt;&lt;code class=&quot;language-typescript&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; api &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;apigateway&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;RestApi&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;...&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; apiResource &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; api&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;root&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;addResource&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;api&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; eventsResource &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; apiResource&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;addResource&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;event&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; plausibleIntegration &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;apigateway&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;HttpIntegration&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;https://plausible.io/api/event&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  httpMethod&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;POST&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  proxy&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;true&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+eventsResource&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;addMethod&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;POST&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; plausibleIntegration&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;After deploying with &lt;code class=&quot;language-text&quot;&gt;cdk deploy ApiStack&lt;/code&gt;, the new endpoint was configured
+to proxy requests to &lt;code class=&quot;language-text&quot;&gt;https://plausible.io/api/event&lt;/code&gt;. Setting &lt;code class=&quot;language-text&quot;&gt;proxy: true&lt;/code&gt;
+ensures that the request is passed through to the target without modification.&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&quot;gatsby-resp-image-figure&quot; style=&quot;&quot;&gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/37c7e632ec9fd682b07e5639d1afe8b7/defc9/apig_screenshot.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 36.708860759493675%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAHCAYAAAAIy204AAAACXBIWXMAABYlAAAWJQFJUiTwAAABEElEQVR42mVRWW6FMAzkIF0hCVkJSYBHn54qtfe/09QOS4v6MVKcscdju3FDxlhu8LEgjBPytCLPK1xIeHoVFc9v8vJ+eVeIqVDugjLfoKyn+oTeBjQ+RtgwQDtfoYyF1Aai1xW9dVAUjzlTXkCrenSEgxe9ucTNtCxIuYCFh5G7WLRS1SQWjyRkvCf3EZpiQdwptov/RSOJaKU8PxQ5OlxJvRVtAju3T8H8lrNNo/eaxg0Ry8e9BoIT0wQ5pOrycMoFtTCMkDGjMw6tkCfPpvI01UlohyM+v75Ph7+70dfR2AUtXtMxlA8XnoV5dZb+m07tXWg8yQ7zXF2ywNGkcnyYZUW5P0hw+Ofe0WGVMfgB/ljPF95Wx98AAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Plausible proxy setup in API Gateway&quot;
+        title=&quot; &quot;
+        src=&quot;/static/37c7e632ec9fd682b07e5639d1afe8b7/f058b/apig_screenshot.png&quot;
+        srcset=&quot;/static/37c7e632ec9fd682b07e5639d1afe8b7/c26ae/apig_screenshot.png 158w,
+/static/37c7e632ec9fd682b07e5639d1afe8b7/6bdcf/apig_screenshot.png 315w,
+/static/37c7e632ec9fd682b07e5639d1afe8b7/f058b/apig_screenshot.png 630w,
+/static/37c7e632ec9fd682b07e5639d1afe8b7/40601/apig_screenshot.png 945w,
+/static/37c7e632ec9fd682b07e5639d1afe8b7/78612/apig_screenshot.png 1260w,
+/static/37c7e632ec9fd682b07e5639d1afe8b7/defc9/apig_screenshot.png 2046w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&quot;gatsby-resp-image-figcaption&quot;&gt; &lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;After setting up the proxy API, the &lt;a href=&quot;https://plausible.io/js/script.js&quot;&gt;event script&lt;/a&gt;
+can be downloaded and hosted in with the rest of the static files. Just make
+sure you don&apos;t name it &lt;code class=&quot;language-text&quot;&gt;plausible.js&lt;/code&gt; as your ad blocker will helpfully
+block anything that with that keyword.&lt;/p&gt;
+&lt;p&gt;Once the proxy and self hosted script are in place, the script tag can be
+updated with the new values.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;html&quot;&gt;&lt;pre class=&quot;language-html&quot;&gt;&lt;code class=&quot;language-html&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;script&lt;/span&gt; &lt;span class=&quot;token attr-name&quot;&gt;defer&lt;/span&gt; &lt;span class=&quot;token attr-name&quot;&gt;data-api&lt;/span&gt;&lt;span class=&quot;token attr-value&quot;&gt;&lt;span class=&quot;token punctuation attr-equals&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&quot;&lt;/span&gt;your-event-proxy-url.com/api/event&lt;span class=&quot;token punctuation&quot;&gt;&quot;&lt;/span&gt;&lt;/span&gt; 
+        &lt;span class=&quot;token attr-name&quot;&gt;data-domain&lt;/span&gt;&lt;span class=&quot;token attr-value&quot;&gt;&lt;span class=&quot;token punctuation attr-equals&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&quot;&lt;/span&gt;your-domain.com&lt;span class=&quot;token punctuation&quot;&gt;&quot;&lt;/span&gt;&lt;/span&gt; 
+        &lt;span class=&quot;token attr-name&quot;&gt;src&lt;/span&gt;&lt;span class=&quot;token attr-value&quot;&gt;&lt;span class=&quot;token punctuation attr-equals&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&quot;&lt;/span&gt;/js/totally-not-tracking-script.js&lt;span class=&quot;token punctuation&quot;&gt;&quot;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token script&quot;&gt;&lt;/span&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;script&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2&gt;Referral Metrics&lt;/h2&gt;
+&lt;p&gt;One of the metrics I was interested in seeing was to see how many people
+followed the link from my blog to my older site which mainly hosts my
+photography. When I first set up Plausible, I noticed all the sources
+were &quot;None/Direct&quot;. In order to provide a more useful source, Plausible
+supports using a &lt;code class=&quot;language-text&quot;&gt;ref&lt;/code&gt; query parameter that can be set on any shared links.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;html&quot;&gt;&lt;pre class=&quot;language-html&quot;&gt;&lt;code class=&quot;language-html&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;a&lt;/span&gt; &lt;span class=&quot;token attr-name&quot;&gt;href&lt;/span&gt;&lt;span class=&quot;token attr-value&quot;&gt;&lt;span class=&quot;token punctuation attr-equals&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&quot;&lt;/span&gt;https://your-domain.com?ref=blog&lt;span class=&quot;token punctuation&quot;&gt;&quot;&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;token attr-name&quot;&gt;target&lt;/span&gt;&lt;span class=&quot;token attr-value&quot;&gt;&lt;span class=&quot;token punctuation attr-equals&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&quot;&lt;/span&gt;_blank&lt;span class=&quot;token punctuation&quot;&gt;&quot;&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;token attr-name&quot;&gt;rel&lt;/span&gt;&lt;span class=&quot;token attr-value&quot;&gt;&lt;span class=&quot;token punctuation attr-equals&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&quot;&lt;/span&gt;noopener&lt;span class=&quot;token punctuation&quot;&gt;&quot;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;Link&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;a&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;With this in place, metrics from both of my domains are now being flowing in
+with the correct referral source despite using an ad blocker.&lt;/p&gt;
+&lt;h1&gt;Profit&lt;/h1&gt;
+&lt;p&gt;So what do you get after all of this? Plausible provides a dashboard to view
+aggregated user metrics. The data updates in near real time and allows you
+to break down many of the metrics by time, device, source, and more. There
+are ways to add custom metrics and additional graphs, but the default
+dashboard works just fine for my needs.&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&quot;gatsby-resp-image-figure&quot; style=&quot;&quot;&gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/ce17d6dcc1d3c1420fd2baae2fdf6c31/1078c/plausible_visitor_graph.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 44.30379746835443%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAYAAAAywQxIAAAACXBIWXMAABYlAAAWJQFJUiTwAAABPUlEQVR42pWS227CMAyGeY5tQE9pk7a0KbShUGAH0Ji0+73/m/yzXVqNSrvgwnISx1/+2J5F+RFxdUGY7ZEULdLqgMA0MHaHjNZRtsWqPiG1HaJ8C+veKF7DUMwdr9Blh2W8FluoCjMv2WAwX9fwNPsGvnF0VstZmLoxHqZbzKNKHjKWHr/FeM9CZgN9fCUqoasvFO0PVP4q+4Va36kY/Dyy456h7CfASlTp6gqz+UZcnCnBjgAvWYtNRdx9eQr0tYO2nwJLynN/rqgkscOTZ/Hs2QeAqgfG5QeCrCPo+y3WwhQXvHgNARu69wAwMC0VvqOvOerqSUog9Qr/VzYBbiSJbSndOohnFb7mzu1uU1D/sX4qhobcAVW+k29GGStr+zWNAl/g8VH5XtSqFammWEBjwzkcD+VeD+c1N/AXQhQMY2EjRvkAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Plausible view metrics dashboard&quot;
+        title=&quot; &quot;
+        src=&quot;/static/ce17d6dcc1d3c1420fd2baae2fdf6c31/f058b/plausible_visitor_graph.png&quot;
+        srcset=&quot;/static/ce17d6dcc1d3c1420fd2baae2fdf6c31/c26ae/plausible_visitor_graph.png 158w,
+/static/ce17d6dcc1d3c1420fd2baae2fdf6c31/6bdcf/plausible_visitor_graph.png 315w,
+/static/ce17d6dcc1d3c1420fd2baae2fdf6c31/f058b/plausible_visitor_graph.png 630w,
+/static/ce17d6dcc1d3c1420fd2baae2fdf6c31/40601/plausible_visitor_graph.png 945w,
+/static/ce17d6dcc1d3c1420fd2baae2fdf6c31/78612/plausible_visitor_graph.png 1260w,
+/static/ce17d6dcc1d3c1420fd2baae2fdf6c31/1078c/plausible_visitor_graph.png 2180w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&quot;gatsby-resp-image-figcaption&quot;&gt; &lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;In addition to the overall view metrics graph, the dashboard also includes
+graphs for Top Sources, Top Pages, Locations, and Devices.&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&quot;gatsby-resp-image-figure&quot; style=&quot;&quot;&gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/fce5d0611211c1a245213c71945fcf41/5e485/plausible_other_graphs.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 78.48101265822784%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAQCAYAAAAWGF8bAAAACXBIWXMAABYlAAAWJQFJUiTwAAACpElEQVR42o2Uy08TURTG538wRko703Y603Ye7XSmU/qYPoDSYhEwWJBQMQbxAcFHiBKDBjcuBKwrdm5cu1BMJGpca+JKN/r3fJx7gZISXovfzM2553z33nO/GUG3i4hbBQTk5BESkFQXsUQO4bgD1czCSJcRiFhdyGYFst4HRXcRpVyhOtbCcHMelZEbKDdmjtCC6Q4gqFpwSw0MjM6iUJuCV7/eRYlyba8BxchA8OpTqE3MoXKFBEdaXbCY7vTDF9TB8ibnVzDWWsL47MMOY60HmLi1jALNsx0LopLiA/Y+jmDUofkk4nYJ6eIIktkarFy9i1R+GJpdphbZEFjBWUgqLRo2ufBJHCx+TkGLE4q5RPpE9gXZ4BBJdTjdsRQkxaKxe2oeQxBpuyyZFxFRsw8q3ZaoWIdEEmQjo5PHjhfRmKWy+3UUV5I8VwipJkKKgd5gDJcCCvyhOCQqFpmArCMY0al/MYjhOKGhV4py/JQfoBgfUw1bVJQ1CKbbj2jSox44MJ0SN7BEW1dMjwydRiyZRyhqI5UdgFu8jIiRg5oodFDMPBnag5au7hnbHzZwwadg7s4ifnzdxuLSI/SEEpDjLpzcIC6KBnokDVa2iuLwNHLVa8gPNTsUapP0pRV5O2SNjG0WJrD6agvvtjbQbm/ianMGk9M38WZzAzufP+Btu41MYRA9QY377DivsviBI4Sw7mHhyWu83/6N8tA4iv0NfPvyEf///sK/Pz+x+vwF7TZNhcmONU5DEGUT/oiD5u01EhzF/N0FfN/5hLW1l1h5tsqP4QsZ/Hves8YZgsysPupZJlfGxvo6/7s8Xn4Kv2xhsD6Oe/eXuB2YLc4lyB6sD1rKg5WpoDecIDE6HsXDdPMa/drkuL3nQ+rVgV8PsbsEdwHEVwV9FZ4a5gAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Plausible additional graphs&quot;
+        title=&quot; &quot;
+        src=&quot;/static/fce5d0611211c1a245213c71945fcf41/f058b/plausible_other_graphs.png&quot;
+        srcset=&quot;/static/fce5d0611211c1a245213c71945fcf41/c26ae/plausible_other_graphs.png 158w,
+/static/fce5d0611211c1a245213c71945fcf41/6bdcf/plausible_other_graphs.png 315w,
+/static/fce5d0611211c1a245213c71945fcf41/f058b/plausible_other_graphs.png 630w,
+/static/fce5d0611211c1a245213c71945fcf41/40601/plausible_other_graphs.png 945w,
+/static/fce5d0611211c1a245213c71945fcf41/78612/plausible_other_graphs.png 1260w,
+/static/fce5d0611211c1a245213c71945fcf41/5e485/plausible_other_graphs.png 2168w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&quot;gatsby-resp-image-figcaption&quot;&gt; &lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;Overall I&apos;ve been extremely pleased with how simple this process was along with
+the great documentation which had an answer for most of the problems I faced.
+It remains to be seen if I will end up getting $12/month of value out of the
+service and start paying for it full time, but I cannot recommend it enough if
+you need a simple privacy focused analytics solution.&lt;/p&gt;</content:encoded></item><item><title><![CDATA[The 1 Billion Row Challenge - Part 1]]></title><description><![CDATA[The 1 Billion Row Challenge is a
 competition to read and process a billion rows from a text file in Java. The
 README for the
 challenge…]]></description><link>https://gatsbystarterblogsource.gatsbyjs.io/1-billion-row-challenge-part-1/</link><guid isPermaLink="false">https://gatsbystarterblogsource.gatsbyjs.io/1-billion-row-challenge-part-1/</guid><pubDate>Thu, 08 Feb 2024 10:37:00 GMT</pubDate><content:encoded>&lt;p&gt;The &lt;a href=&quot;https://github.com/gunnarmorling/1brc&quot;&gt;1 Billion Row Challenge&lt;/a&gt; is a
