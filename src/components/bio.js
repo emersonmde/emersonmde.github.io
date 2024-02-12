@@ -41,10 +41,10 @@ const Bio = () => {
           <h3>{author.name}</h3>
           <p className="bio-tagline">{author.summary}</p>
           <div className="bio-links">
-            <a href="https://github.com/emersonmde" target="_blank" rel="noopener noreferrer">
+            <a href="https://github.com/emersonmde" target="_blank" rel="noopener">
               <FontAwesomeIcon icon={faCode} size="1x" />
             </a>
-            <a href="https://memerson.dev" target="_blank" rel="noopener noreferrer">
+            <a href="https://memerson.dev?ref=ErrorSignal" target="_blank" rel="noopener">
               <FontAwesomeIcon icon={faGlobe} size="1x" />
             </a>
           </div>
