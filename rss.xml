@@ -1,5 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Gatsby Starter Blog RSS Feed]]></title><description><![CDATA[A starter blog demonstrating what Gatsby can do.]]></description><link>https://gatsbystarterblogsource.gatsbyjs.io</link><generator>GatsbyJS</generator><lastBuildDate>Mon, 12 Feb 2024 23:05:33 GMT</lastBuildDate><item><title><![CDATA[Plausible Analytics]]></title><description><![CDATA[I'm a strong believer in Robert Heinlein's quote, "When one teaches, two
-learn." To that end, my primary motivation to write these posts was…]]></description><link>https://gatsbystarterblogsource.gatsbyjs.io/plausible-analytics/</link><guid isPermaLink="false">https://gatsbystarterblogsource.gatsbyjs.io/plausible-analytics/</guid><pubDate>Sun, 11 Feb 2024 09:21:00 GMT</pubDate><content:encoded>&lt;p&gt;I&apos;m a strong believer in Robert Heinlein&apos;s quote, &quot;When one teaches, two
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Gatsby Starter Blog RSS Feed]]></title><description><![CDATA[Error Signal is where curiosity meets code. Here, you'll find 
+      an insightful exploration into the technology that shapes our modern 
+      world as I peel back the layers of abstraction.]]></description><link>https://errorsignal.dev</link><generator>GatsbyJS</generator><lastBuildDate>Wed, 14 Feb 2024 12:17:29 GMT</lastBuildDate><item><title><![CDATA[Plausible Analytics]]></title><description><![CDATA[I'm a strong believer in Robert Heinlein's quote, "When one teaches, two
+learn." To that end, my primary motivation to write these posts was…]]></description><link>https://errorsignal.dev/plausible-analytics/</link><guid isPermaLink="false">https://errorsignal.dev/plausible-analytics/</guid><pubDate>Sun, 11 Feb 2024 09:21:00 GMT</pubDate><content:encoded>&lt;p&gt;I&apos;m a strong believer in Robert Heinlein&apos;s quote, &quot;When one teaches, two
 learn.&quot; To that end, my primary motivation to write these posts was to
 reinforce my own understanding of the topics I touch on in my personal
 projects. However, I still hope to provide value to others who may be
@@ -228,7 +230,7 @@ service and start paying for it full time, but I cannot recommend it enough if
 you need a simple privacy focused analytics solution.&lt;/p&gt;</content:encoded></item><item><title><![CDATA[The 1 Billion Row Challenge - Part 1]]></title><description><![CDATA[The 1 Billion Row Challenge is a
 competition to read and process a billion rows from a text file in Java. The
 README for the
-challenge…]]></description><link>https://gatsbystarterblogsource.gatsbyjs.io/1-billion-row-challenge-part-1/</link><guid isPermaLink="false">https://gatsbystarterblogsource.gatsbyjs.io/1-billion-row-challenge-part-1/</guid><pubDate>Thu, 08 Feb 2024 10:37:00 GMT</pubDate><content:encoded>&lt;p&gt;The &lt;a href=&quot;https://github.com/gunnarmorling/1brc&quot;&gt;1 Billion Row Challenge&lt;/a&gt; is a
+challenge…]]></description><link>https://errorsignal.dev/1-billion-row-challenge-part-1/</link><guid isPermaLink="false">https://errorsignal.dev/1-billion-row-challenge-part-1/</guid><pubDate>Thu, 08 Feb 2024 10:37:00 GMT</pubDate><content:encoded>&lt;p&gt;The &lt;a href=&quot;https://github.com/gunnarmorling/1brc&quot;&gt;1 Billion Row Challenge&lt;/a&gt; is a
 competition to read and process a billion rows from a text file in Java. The
 &lt;a href=&quot;https://github.com/gunnarmorling/1brc/blob/main/README.md&quot;&gt;README&lt;/a&gt; for the
 challenge states:&lt;/p&gt;
@@ -656,7 +658,7 @@ more important to understand what is happening on a lower level and avoiding
 the common foot-guns that are so tempting to use. Oh, and just use a profiler,
 it&apos;s much easier than pulling all levers!&lt;/p&gt;</content:encoded></item><item><title><![CDATA[Hello, Gatsby]]></title><description><![CDATA[I recently discovered a great podcast, Programming Throwdown,
 that featured Gatsby in a prior episode. It was
-described as a quick and easy…]]></description><link>https://gatsbystarterblogsource.gatsbyjs.io/hello-gatsby/</link><guid isPermaLink="false">https://gatsbystarterblogsource.gatsbyjs.io/hello-gatsby/</guid><pubDate>Sun, 04 Feb 2024 10:46:23 GMT</pubDate><content:encoded>&lt;p&gt;I recently discovered a great podcast, &lt;a href=&quot;https://www.programmingthrowdown.com/&quot;&gt;Programming Throwdown&lt;/a&gt;,
+described as a quick and easy…]]></description><link>https://errorsignal.dev/hello-gatsby/</link><guid isPermaLink="false">https://errorsignal.dev/hello-gatsby/</guid><pubDate>Sun, 04 Feb 2024 10:46:23 GMT</pubDate><content:encoded>&lt;p&gt;I recently discovered a great podcast, &lt;a href=&quot;https://www.programmingthrowdown.com/&quot;&gt;Programming Throwdown&lt;/a&gt;,
 that featured &lt;a href=&quot;https://www.gatsbyjs.com/&quot;&gt;Gatsby&lt;/a&gt; in a prior episode. It was
 described as a quick and easy way to generate static websites while still
 harnessing the power and compatibility of React. At the time I pictured a
