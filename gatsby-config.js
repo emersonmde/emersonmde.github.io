@@ -14,8 +14,10 @@ module.exports = {
       name: `Matthew Emerson`,
       summary: `Turning 'how does that work?' into code.`,
     },
-    description: `A starter blog demonstrating what Gatsby can do.`,
-    siteUrl: `https://gatsbystarterblogsource.gatsbyjs.io/`,
+    description: `Error Signal is where curiosity meets code. Here, you'll find 
+      an insightful exploration into the technology that shapes our modern 
+      world as I peel back the layers of abstraction.`,
+    siteUrl: `https://errorsignal.dev/`,
     social: {
       twitter: ``,
     },
