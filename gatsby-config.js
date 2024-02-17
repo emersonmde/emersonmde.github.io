@@ -17,9 +17,9 @@ module.exports = {
     description: `Error Signal is where curiosity meets code. Here, you'll find 
       an insightful exploration into the technology that shapes our modern 
       world as I peel back the layers of abstraction.`,
-    siteUrl: `https://errorsignal.dev/`,
+    siteUrl: `https://errorsignal.dev`,
     social: {
-      twitter: ``,
+      twitter: `XyliteZero`,
     },
   },
   plugins: [

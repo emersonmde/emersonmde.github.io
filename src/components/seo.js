@@ -17,6 +17,7 @@ const Seo = ({ description, title, children }) => {
           siteMetadata {
             title
             description
+            siteUrl
             social {
               twitter
             }
@@ -28,6 +29,7 @@ const Seo = ({ description, title, children }) => {
 
   const metaDescription = description || site.siteMetadata.description
   const defaultTitle = site.siteMetadata?.title
+  const siteUrl = site.siteMetadata?.siteUrl
 
   return (
     <>
@@ -43,7 +45,8 @@ const Seo = ({ description, title, children }) => {
       />
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={metaDescription} />
-      <meta name="og:image" content={icon} />
+      <meta name="og:image" content={`${siteUrl}${icon}`} />
+      <meta name="twitter:image" content={`${siteUrl}${icon}`} />
 
       {/* Plausible */}
       <script defer data-api="https://knsfeilz9j.execute-api.us-east-1.amazonaws.com/dev/api/event" data-domain="errorsignal.dev" src="/js/pevents.js"></script>
