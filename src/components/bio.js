@@ -3,6 +3,7 @@ import { useStaticQuery, graphql } from "gatsby"
 import { StaticImage } from "gatsby-plugin-image"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCode, faGlobe } from "@fortawesome/free-solid-svg-icons"
+import { faTwitter } from "@fortawesome/free-brands-svg-icons"
 import { config } from "@fortawesome/fontawesome-svg-core"
 import "@fortawesome/fontawesome-svg-core/styles.css"
 
@@ -17,12 +18,16 @@ const Bio = () => {
             name   
             summary
           }
+          social {
+            twitter
+          }
         }
       }
     }
-  `)
+  `);
 
-  const author = data.site.siteMetadata?.author
+  const author = data.site.siteMetadata?.author;
+  const twitter = data.site.siteMetadata?.social?.twitter;
 
   return (
     <div className="bio">
@@ -44,8 +49,8 @@ const Bio = () => {
             <a href="https://github.com/emersonmde" target="_blank" rel="noopener">
               <FontAwesomeIcon icon={faCode} size="1x" />
             </a>
-            <a href="https://memerson.dev?ref=ErrorSignal" target="_blank" rel="noopener">
-              <FontAwesomeIcon icon={faGlobe} size="1x" />
+            <a href={`https://twitter.com/${twitter}`} target="_blank" rel="noopener">
+              <FontAwesomeIcon icon={faTwitter} />
             </a>
           </div>
         </div>
