@@ -242,6 +242,21 @@ a:focus {
 
 /* Custom classes */
 
+.return-to-top {
+  background: none;
+  color: var(--color-primary);
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.return-to-top:hover,
+.return-to-top:focus {
+  text-decoration: none;
+}
+
 .global-wrapper {
   margin: var(--spacing-0) auto;
   max-width: var(--maxWidth-wrapper);
