@@ -48,9 +48,6 @@ const Seo = ({ description, title, children }) => {
       <meta name="og:image" content={`${siteUrl}${icon}`} />
       <meta name="twitter:image" content={`${siteUrl}${icon}`} />
 
-      {/* Plausible */}
-      <script defer data-api="https://knsfeilz9j.execute-api.us-east-1.amazonaws.com/dev/api/event" data-domain="errorsignal.dev" src="/js/pevents.js"></script>
-
       {children}
     </>
   )
