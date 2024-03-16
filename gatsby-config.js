@@ -4,6 +4,10 @@
  * See: https://www.gatsbyjs.com/docs/reference/config-files/gatsby-config/
  */
 
+require("dotenv").config({
+  path: `.env`,
+})
+
 /**
  * @type {import('gatsby').GatsbyConfig}
  */
