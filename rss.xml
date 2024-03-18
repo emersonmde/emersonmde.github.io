@@ -1,6 +1,353 @@
 <?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Error Signal RSS Feed]]></title><description><![CDATA[Error Signal is where curiosity meets code. Here, you'll find 
       an insightful exploration into the technology that shapes our modern 
-      world as I peel back the layers of abstraction.]]></description><link>https://errorsignal.dev</link><generator>GatsbyJS</generator><lastBuildDate>Sat, 16 Mar 2024 13:20:03 GMT</lastBuildDate><item><title><![CDATA[The 1 Billion Row Challenge - Part 2]]></title><description><![CDATA[I recently wrote about my solution to the
+      world as I peel back the layers of abstraction.]]></description><link>https://errorsignal.dev</link><generator>GatsbyJS</generator><lastBuildDate>Mon, 18 Mar 2024 00:45:27 GMT</lastBuildDate><item><title><![CDATA[A Brave Neo World]]></title><description><![CDATA[Over the past 5 years I've been hooked on JetBrains
+IDEs. It really started with using IntelliJ
+for Java at work. I was impressed with the…]]></description><link>https://errorsignal.dev/a-brave-neo-world/</link><guid isPermaLink="false">https://errorsignal.dev/a-brave-neo-world/</guid><pubDate>Sat, 09 Mar 2024 15:50:00 GMT</pubDate><content:encoded>&lt;p&gt;Over the past 5 years I&apos;ve been hooked on &lt;a href=&quot;https://www.jetbrains.com/&quot;&gt;JetBrains&lt;/a&gt;
+IDEs. It really started with using &lt;a href=&quot;https://www.jetbrains.com/idea/&quot;&gt;IntelliJ&lt;/a&gt;
+for Java at work. I was impressed with the number of useful tools and features
+that came with IntelliJ from refactoring code, to code completions including
+dependencies, to an excellent built in debugger and so much more. All of these
+made me far more efficent writing Java with IntelliJ than I was in other
+languages. At the time I was a a devout Vim acolyite and spent many late
+nights trying to find the optimal setup. As it turns out IntelliJ&apos;s default
+settings covered almost everything I wanted. In comparison my Vim setup was
+lacking many of the features I came to rely on which would take significant
+effort to replicate with far less polish in Vim. It wasn&apos;t long before I was
+paying for the JetBrains All Products bundle for side projects as well.&lt;/p&gt;
+&lt;p&gt;While &lt;a href=&quot;https://github.com/JetBrains/ideavim&quot;&gt;IdeaVim&lt;/a&gt; was good enough to
+provide familiar Vim motions and some basic features there were ocasionally
+more complex commands that I wanted to use that I found were missing. I also
+didn&apos;t get into fully configuring IdeaVim, relying more on the IntelliJ
+configuration options. Beyond IdeaVim, there were other downsides that are
+obvious from the start but were secondary to the functionality offered. The
+intense indexing process often made the IDE unusable at times and lead to very
+slow start up times. There are few programs that devour RAM faster than
+Chrome, but IntelliJ often wins out. Also JetBrains releases specific versions
+of Idea with integrations and tools for specific languages such as PyCharm for
+Python or RubyMine for Ruby but that often results in managing multiple
+applications and switching between them or accepting some tradeoffs by using
+language specific plugins in IntelliJ.&lt;/p&gt;
+&lt;h2&gt;Back To The Future&lt;/h2&gt;
+&lt;p&gt;I saw coworkers, streamers, and YouTubers using NeoVim and noticed these new
+setups looked far better than what was available when I was daily driving Vim.
+Many also showcased features like code actions that I thought were unique to
+IntelliJ and other similar full featured IDEs. After some investigation, setups
+like these were pretty common and to my surprise they didn&apos;t take thousands of
+lines of custom VimScript or a host of plugins. Many of these context aware
+features came from the usage of &lt;a href=&quot;https://langserver.org/&quot;&gt;language servers&lt;/a&gt;.
+These language servers implment the
+&lt;a href=&quot;https://microsoft.github.io/language-server-protocol/&quot;&gt;Language Server Protocol&lt;/a&gt;,
+a standard protocol originally developed by Microsoft and used in VSCode to
+allow language maintainers and communities to build code aware capabilities
+agosnotic of the editor.&lt;/p&gt;
+&lt;p&gt;Although I knew these setups existed and there were great video walkthroughs
+available, I knew this could be a significant time sink. To avoid the
+enividible start up cost I turned to a NeoVim distrobution,
+&lt;a href=&quot;https://www.lunarvim.org/&quot;&gt;LunarVim&lt;/a&gt;. This distro looks great and comes with
+batteries included designed as a fully working IDE. As good as this sounded
+at first, I quickly ran into issues I had with the provided defaults and
+found myself diving into the config anyway. The downside was now I had to
+learn the LunarVim abstractions on top of the underlying plugins and NeoVim
+config. I ended up abandonding the exparimient and returning to the world of
+JetBrains.&lt;/p&gt;
+&lt;h2&gt;NeoVim Kickstart&lt;/h2&gt;
+&lt;p&gt;After a few more months had past, I came across
+&lt;a href=&quot;https://github.com/nvim-lua/kickstart.nvim&quot;&gt;NeoVim Kickstart&lt;/a&gt;, a small well
+documented starting config that includes completions, LSP servers, and looks
+great out of the box. There was also
+&lt;a href=&quot;https://www.youtube.com/watch?v=m8C0Cq9Uv9o&quot;&gt;a great video&lt;/a&gt;
+by &lt;a href=&quot;https://www.youtube.com/@teej_dv/videos&quot;&gt;TJ DeVries&lt;/a&gt;, the creator of NeoVim
+Kickstart and a NeoVim core maintainer, that explains in detail what each line
+does and how to further customize it.&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&quot;gatsby-resp-image-figure&quot; style=&quot;&quot;&gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/c22795ff2fd14d8958b6dc716ebd81cb/09b15/neovim_beginning_screenshot.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 82.27848101265823%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAQCAYAAAAWGF8bAAAACXBIWXMAABYlAAAWJQFJUiTwAAAChUlEQVR42n1U2W7bMBD0X8SWROrkoVu2bMdxXCNFiqIt+hMF+v+/MJ2l3DQpkDwMdpfHiLOHVjrtYO09+vEJw+EZrntAPZ0wHa/ot/fw3Ra27eD6HlXdIi08dOahUkEDnbYLdAulPVZC6PwJzXDFuPuOprtgGB7RDydUZoKpR7iWpM2EtCRB7pFXDYlrZPmAvBiRlyOyYrgRZl0IdDnwwsTNGVU1I81GJKpGFFmsNwYbAf0F5pWtXuwLYZx4EpCUrxUSpdvg66yH7Kf0FWXFiXuD6LUfWyQLYU9HpPQo+LKimCilJ0jIHCU8eHeX4279F8UNS7ymv76tJcotOYzWJZLEwro9TMWcFF0gTDPmKq150ELxsEgKltD0E+0IG7DZFIhjg1WqOxSnZ9T7Jxh3YEU/oW2P8FULZ3o0dkTnRtRi/YSWfu8FWxgzQvGjOmuxIZkoWmnFKl++Yfr9C/Z0hZ8/o+rPqLojquaIst7THlA6FosfKrt7lIzzZo/Mz9B2y3RJ/pkmVnsl/ZPkNfTPr9DbGcq3iPiKpN4haWfEbgqQOGYnJKGINV9kw6uCZZXXm+pvDlk9HooOD4i6GVHDi8P+H/r5xUYDQbkRCaSqryFt9NI2iWIe+FXNakt7KCVoFujFipL/Sd4llD5UWirLxi52wUo7KemAD0jeIezDK0rXofIDTDOiMC1yS3Izk3y8TYIJUoONP5Cs0kVyxplMpaE5hnm5pZ0W5LLOKnKSZJoklkEQVW8ICcWeXcmoBclh1G6Xim2wgrAuo6dv+Qx/FRZS+dscL5BpieISq3r8gqLcwdVneDa1ay6w9SOMf6C9hHjxzwFh35+5RrhT2BNFprmim3/gDwtvyCfzPQGeAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;NeoVim Kickstart Screenshot&quot;
+        title=&quot; &quot;
+        src=&quot;/static/c22795ff2fd14d8958b6dc716ebd81cb/f058b/neovim_beginning_screenshot.png&quot;
+        srcset=&quot;/static/c22795ff2fd14d8958b6dc716ebd81cb/c26ae/neovim_beginning_screenshot.png 158w,
+/static/c22795ff2fd14d8958b6dc716ebd81cb/6bdcf/neovim_beginning_screenshot.png 315w,
+/static/c22795ff2fd14d8958b6dc716ebd81cb/f058b/neovim_beginning_screenshot.png 630w,
+/static/c22795ff2fd14d8958b6dc716ebd81cb/40601/neovim_beginning_screenshot.png 945w,
+/static/c22795ff2fd14d8958b6dc716ebd81cb/78612/neovim_beginning_screenshot.png 1260w,
+/static/c22795ff2fd14d8958b6dc716ebd81cb/09b15/neovim_beginning_screenshot.png 1704w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&quot;gatsby-resp-image-figcaption&quot;&gt; &lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;This was a great way to get into NeoVim. Its written all in Lua, not my
+preference but signficiantly better than bespoke VimScript, and since it is
+well documented it was easy to add on to or change as needed. I found it struck
+the perfect balance between predefined functionality and customizability.&lt;/p&gt;
+&lt;p&gt;Kickstart comes configured with &lt;a href=&quot;https://github.com/williamboman/mason.nvim&quot;&gt;Mason&lt;/a&gt;,
+a plugin that manages external tooling such as LSP servers, linters, and
+formatters. Most of these work just out of the box with minimal config. Java
+on the other hand, took a lot of trial and error.&lt;/p&gt;
+&lt;h2&gt;Lombok&lt;/h2&gt;
+&lt;p&gt;Mason can automatically install and configure the
+&lt;a href=&quot;https://github.com/eclipse-jdtls/eclipse.jdt.ls&quot;&gt;Eclipse JDT Language Server&lt;/a&gt;
+which works well enough but did not automatically recognize Lombok annotations.
+This seemed odd because it has a Lombok setting which defaults to true. Some
+posts online suggested including the Lombok JAR and specifying it in the Java
+falgs in the JDT-LS settings. Sounds easy enough.&lt;/p&gt;
+&lt;p&gt;I spent the next few hours learning Lua and creating an
+&lt;a href=&quot;https://github.com/emersonmde/.dotfiles/commit/ae30c7cd369348841817ea04191491d82aaa6488&quot;&gt;initialization function&lt;/a&gt;
+that would automatically install JDT-LS and the Lombok JAR then configure the LSP
+outside of Mason. In the end I realized this would be painful to maintain in
+the future. Some of the links had to be hard coded, some required special
+handlers to verify checksums, and all of the steps required seemed fragile.&lt;/p&gt;
+&lt;h2&gt;This Is The Way&lt;/h2&gt;
+&lt;p&gt;I decided to start over, leaning on Mason to download and maintain the JDT
+language server and the Lombok JAR but instead of using Mason-LspConfig I would
+use &lt;a href=&quot;https://github.com/mfussenegger/nvim-jdtls&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;mfussenegger/nvim-jdtls&lt;/code&gt;&lt;/a&gt;
+to configure JDT-LS.&lt;/p&gt;
+&lt;p&gt;First I added &lt;code class=&quot;language-text&quot;&gt;jdtls&lt;/code&gt; to the &lt;code class=&quot;language-text&quot;&gt;servers&lt;/code&gt; table so Mason
+would automatically download everything needed, then added a &lt;code class=&quot;language-text&quot;&gt;skip_setup&lt;/code&gt; key
+to avoid configuring it with &lt;code class=&quot;language-text&quot;&gt;lspconfig&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;lua&quot;&gt;&lt;pre class=&quot;language-lua&quot;&gt;&lt;code class=&quot;language-lua&quot;&gt;mason_lspconfig&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;setup_handlers&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;server_name&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; servers&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;server_name&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;~=&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;nil&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;and&lt;/span&gt; servers&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;server_name&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;skip_setup &lt;span class=&quot;token keyword&quot;&gt;then&lt;/span&gt;
+      &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;end&lt;/span&gt;
+    &lt;span class=&quot;token function&quot;&gt;require&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;lspconfig&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;server_name&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;setup&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+      capabilities &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; capabilities&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+      on_attach &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; on_attach&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+      settings &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; servers&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;server_name&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+      filetypes &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;servers&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;server_name&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;or&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;filetypes&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;end&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Then added a function to configure &lt;code class=&quot;language-text&quot;&gt;jdtls&lt;/code&gt; with &lt;code class=&quot;language-text&quot;&gt;nvim-jdtls&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;lua&quot;&gt;&lt;pre class=&quot;language-lua&quot;&gt;&lt;code class=&quot;language-lua&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;local&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;jdtlsConfig&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;local&lt;/span&gt; os_name &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; vim&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;loop&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;os_uname&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;sysname
+  &lt;span class=&quot;token keyword&quot;&gt;local&lt;/span&gt; arch &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; vim&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;loop&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;os_uname&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;machine
+  &lt;span class=&quot;token keyword&quot;&gt;local&lt;/span&gt; config_dir_name &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;config_linux&apos;&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; os_name &lt;span class=&quot;token operator&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;Darwin&apos;&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;then&lt;/span&gt;
+    config_dir_name &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; arch &lt;span class=&quot;token operator&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;x86_64&apos;&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;and&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;config_mac&apos;&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;or&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;config_mac_arm&apos;&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;elseif&lt;/span&gt; os_name &lt;span class=&quot;token operator&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;Linux&apos;&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;then&lt;/span&gt;
+    config_dir_name &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; arch &lt;span class=&quot;token operator&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;x86_64&apos;&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;and&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;config_linux&apos;&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;or&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;config_linux_arm&apos;&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;end&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;local&lt;/span&gt; jdtls_dir &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; home &lt;span class=&quot;token operator&quot;&gt;..&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;/.local/share/nvim/mason/packages/jdtls&apos;&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;local&lt;/span&gt; config_path &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; jdtls_dir &lt;span class=&quot;token operator&quot;&gt;..&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;/&quot;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;..&lt;/span&gt; config_dir_name
+
+  &lt;span class=&quot;token keyword&quot;&gt;local&lt;/span&gt; project_name &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; vim&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;fn&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;fnamemodify&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;vim&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;fn&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;getcwd&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;:p:h:t&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;local&lt;/span&gt; workspace_dir &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; jdtls_dir &lt;span class=&quot;token operator&quot;&gt;..&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;/workspace/&apos;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;..&lt;/span&gt; project_name
+
+  &lt;span class=&quot;token keyword&quot;&gt;local&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;on_init&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;client&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; client&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;config&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;settings &lt;span class=&quot;token keyword&quot;&gt;then&lt;/span&gt;
+      client&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;notify&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;workspace/didChangeConfiguration&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; settings &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; client&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;config&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;settings &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;end&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;end&lt;/span&gt;
+
+  &lt;span class=&quot;token keyword&quot;&gt;local&lt;/span&gt; bundles &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;local&lt;/span&gt; extendedClientCapabilities &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;require&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;jdtls&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;extendedClientCapabilities
+  extendedClientCapabilities&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;resolveAdditionalTextEditsSupport &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;true&lt;/span&gt;
+
+  &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    cmd &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;token string&quot;&gt;&apos;java&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;-- or &apos;/path/to/java11_or_newer/bin/java&apos;&lt;/span&gt;
+      &lt;span class=&quot;token string&quot;&gt;&apos;-Declipse.application=org.eclipse.jdt.ls.core.id1&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;token string&quot;&gt;&apos;-Dosgi.bundles.defaultStartLevel=4&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;token string&quot;&gt;&apos;-Declipse.product=org.eclipse.jdt.ls.core.product&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;token string&quot;&gt;&apos;-Dlog.protocol=true&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;token string&quot;&gt;&apos;-Dlog.level=ALL&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;token string&quot;&gt;&apos;-javaagent:&apos;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;..&lt;/span&gt; jdtls_dir &lt;span class=&quot;token operator&quot;&gt;..&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;/lombok.jar&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;token string&quot;&gt;&apos;-Xms1g&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;token string&quot;&gt;&apos;--add-modules=ALL-SYSTEM&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;token string&quot;&gt;&apos;--add-opens&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;token string&quot;&gt;&apos;java.base/java.util=ALL-UNNAMED&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;token string&quot;&gt;&apos;--add-opens&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;token string&quot;&gt;&apos;java.base/java.lang=ALL-UNNAMED&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+
+      &lt;span class=&quot;token string&quot;&gt;&apos;-jar&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+      vim&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;fn&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;glob&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;jdtls_dir &lt;span class=&quot;token operator&quot;&gt;..&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;/plugins/org.eclipse.equinox.launcher_*.jar&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+
+      &lt;span class=&quot;token string&quot;&gt;&apos;-configuration&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+      config_path&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+
+      &lt;span class=&quot;token string&quot;&gt;&apos;-data&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+      workspace_dir&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    flags &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+      debounce_text_changes &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;150&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+      allow_incremental_sync &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    handlers &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    root_dir &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;require&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;jdtls.setup&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;find_root&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;build.gradle&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;pom.xml&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;.git&apos;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    capabilities &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;require&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;cmp_nvim_lsp&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;default_capabilities&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;vim&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;lsp&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;protocol&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;make_client_capabilities&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    on_init &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; on_init&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    on_attach &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; on_attach&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    init_options &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+      bundles &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; bundles&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+      extendedClientCapabilities &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; extendedClientCapabilities&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    settings &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+      java &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        signatureHelp &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; enabled &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;true&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        configuration &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+          updateBuildConfiguration &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;interactive&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+
+        eclipse &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+          downloadSources &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        maven &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+          downloadSources &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        implementationsCodeLens &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+          enabled &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        referencesCodeLens &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+          enabled &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        references &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+          includeDecompiledSources &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        inlayHints &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+          parameterNames &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+            enabled &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;all&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+          &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        completion &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+          favoriteStaticMembers &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;token string&quot;&gt;&apos;org.hamcrest.MatcherAssert.assertThat&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;token string&quot;&gt;&apos;org.hamcrest.Matchers.*&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;token string&quot;&gt;&apos;org.hamcrest.CoreMatchers.*&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;token string&quot;&gt;&apos;org.junit.jupiter.api.Assertions.*&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;token string&quot;&gt;&apos;java.util.Objects.requireNonNull&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;token string&quot;&gt;&apos;java.util.Objects.requireNonNullElse&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;token string&quot;&gt;&apos;org.mockito.Mockito.*&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+          &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        sources &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+          organizeImports &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+            starThreshold &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;9999&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+            staticStarThreshold &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;9999&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+          &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        codeGeneration &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+          toString &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+            template &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;${object.className}{${member.name()}=${member.value}, ${otherMembers}}&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+          &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+          useBlocks &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Finally, I just had to call this function when editing Java files:&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;lua&quot;&gt;&lt;pre class=&quot;language-lua&quot;&gt;&lt;code class=&quot;language-lua&quot;&gt;vim&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;api&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;nvim_create_autocmd&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;FileType&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  pattern &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;java&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  callback &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token function&quot;&gt;require&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;jdtls.setup&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;add_commands&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token function&quot;&gt;require&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;jdtls&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;start_or_attach&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;jdtlsConfig&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;end&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2&gt;Whats Left?&lt;/h2&gt;
+&lt;p&gt;Java was the only real gap to fill. Besides Java, I added &lt;code class=&quot;language-text&quot;&gt;vim-tmux-navigator&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;lua&quot;&gt;&lt;pre class=&quot;language-lua&quot;&gt;&lt;code class=&quot;language-lua&quot;&gt;&lt;span class=&quot;token function&quot;&gt;require&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;lazy&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;setup&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;-- ...&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token string&quot;&gt;&quot;christoomey/vim-tmux-navigator&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    cmd &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;token string&quot;&gt;&quot;TmuxNavigateLeft&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;token string&quot;&gt;&quot;TmuxNavigateDown&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;token string&quot;&gt;&quot;TmuxNavigateUp&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;token string&quot;&gt;&quot;TmuxNavigateRight&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;token string&quot;&gt;&quot;TmuxNavigatePrevious&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    keys &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;&amp;lt;c-h&gt;&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;  &lt;span class=&quot;token string&quot;&gt;&quot;&amp;lt;cmd&gt;&amp;lt;C-U&gt;TmuxNavigateLeft&amp;lt;cr&gt;&quot;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;&amp;lt;c-j&gt;&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;  &lt;span class=&quot;token string&quot;&gt;&quot;&amp;lt;cmd&gt;&amp;lt;C-U&gt;TmuxNavigateDown&amp;lt;cr&gt;&quot;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;&amp;lt;c-k&gt;&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;  &lt;span class=&quot;token string&quot;&gt;&quot;&amp;lt;cmd&gt;&amp;lt;C-U&gt;TmuxNavigateUp&amp;lt;cr&gt;&quot;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;&amp;lt;c-l&gt;&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;  &lt;span class=&quot;token string&quot;&gt;&quot;&amp;lt;cmd&gt;&amp;lt;C-U&gt;TmuxNavigateRight&amp;lt;cr&gt;&quot;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;&amp;lt;c-\\&gt;&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;&amp;lt;cmd&gt;&amp;lt;C-U&gt;TmuxNavigatePrevious&amp;lt;cr&gt;&quot;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;And some colorscheme updates:&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;lua&quot;&gt;&lt;pre class=&quot;language-lua&quot;&gt;&lt;code class=&quot;language-lua&quot;&gt;&lt;span class=&quot;token function&quot;&gt;require&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;lazy&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;setup&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;-- ...&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token string&quot;&gt;&quot;sainnhe/sonokai&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    config &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+      vim&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;g&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;sonokai_style &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;default&quot;&lt;/span&gt;
+      vim&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;g&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;sonokai_disable_italic_comment &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;true&lt;/span&gt;
+      vim&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;g&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;sonokai_menu_selection_background &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;green&quot;&lt;/span&gt;
+      vim&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;opt&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;termguicolors &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;true&lt;/span&gt;
+      vim&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;cmd&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;colorscheme&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;sonokai&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;end&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;local&lt;/span&gt; custom_auto &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;require&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;lualine.themes.auto&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+custom_auto&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;normal&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;a&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;bg &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;#a7df78&apos;&lt;/span&gt;
+custom_auto&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;insert&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;a&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;bg &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;#85d3f2&apos;&lt;/span&gt;
+
+&lt;span class=&quot;token function&quot;&gt;require&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;lualine&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;setup&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  options &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; theme &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; custom_auto &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;With these few changes, NeoVim has quickly become my go to IDE. It&apos;s snappy,
+functional, easy to add on to, and it looks great. I think I may have found the
+long awaited IntelliJ killer, it just happened to be lurking in the background
+all along.&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&quot;gatsby-resp-image-figure&quot; style=&quot;&quot;&gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/6073bed55180e88e50147e3c163aa2e5/5fada/neovim_final_screenshot.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 100%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAACXBIWXMAABYlAAAWJQFJUiTwAAADT0lEQVR42m1U2Y7cRgzU5zjW6Gz1ofuc+/KO7SBBggABDOT/v6BSbM0Gu+s8FKgZqavJYpFBmjuEcYEo0cjKEd3uiml7RtUuGA93tMsMNw5QroauHWxbwXU1lHHIlEPC8xue3zw5Alu2GKYj2m7hh1vU2yvK+YyOsWWsphPq3Q3d4Yr+cMbxdse036F0JG4H5OWAOLGIU4M0LxGookLXT2j4su4XTLsTjscL5mmLZXvENB+x3R2wJ+E4X1C3W2ZWkUAjzixStSJOjM8ySMgaxtrfEKsaczVjWC7M4gqtG5hmRjfv4OoeGb/NmUDCjDItcMil9MIiiY2XLkgy58lEi4jEBX8b26LQNZzrGJlNZPyh3FpqaVHYGmlK/QhtWtiyh+L38hwIkSdk+hHTNsyirSbUwwHVeGAGLRJV+ve+inStRhogZSapXd8lxp8PRMiYf/4XmbrlzYrlp7ZDJmDpciiMFHXSaySEVPDaZa9hqt4SGmhaRzqXWZbBqKrRIzcNynqE4UV50fjLJLufCDP9nrCg6KZpoAlT9ahpJUNC43pYamoogWG09QTRXzJ+R6hM7X30WrLmc23kwAxNcysSpRRcSv68yf0h6aaUHUYk+ZhhzgxFTE/IQyW72pOkpF1SZpMJYbESSidlsgRiH/W8KHpPWJFwzVBK6PoWyzKh3x8xcgxrdtpQy6adafQzStGTZJrW0tQxzVa7/ZyhWjNM+Ozahtr1PFAh15oNMb68T2GOXzyUj77kVzJfOmdZbttEmjdZf1O4yVA0PVouhp5j1ww7dNMeE7Ouqs6b3XCOC7P6TuwTUtuQF3wmgsePEy5/csMcHmi4DFy3Q7PcMN9/w/byHQfG89c/sD+/oBmP6Ld3XnDwM2+bBZUMwHDCl79f8PjnKj7UqLgEhvvDY3z8ivHlO4YvX9HfHugZW/5fctNUXBrl/kSfslGm5yh2yN0AzcmSTWWbSUbPUGTOJOdTYNwatat8LIw0q+CsF2vMNA2tfWc9qGNM/VIZQfo4iEkotYcbRZ+pp78+olgb8BrjD0ie8Ma2DXKZ26ex/w/RWyRvwLkXhGzqJlqfAyU7jas8zYwv5SNSlphxgeZvIL8V7SbWqojr70d8+3HD/a8z/gWq4pK3Pj93pQAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;NeoVim Final Setup Screenshot&quot;
+        title=&quot; &quot;
+        src=&quot;/static/6073bed55180e88e50147e3c163aa2e5/f058b/neovim_final_screenshot.png&quot;
+        srcset=&quot;/static/6073bed55180e88e50147e3c163aa2e5/c26ae/neovim_final_screenshot.png 158w,
+/static/6073bed55180e88e50147e3c163aa2e5/6bdcf/neovim_final_screenshot.png 315w,
+/static/6073bed55180e88e50147e3c163aa2e5/f058b/neovim_final_screenshot.png 630w,
+/static/6073bed55180e88e50147e3c163aa2e5/40601/neovim_final_screenshot.png 945w,
+/static/6073bed55180e88e50147e3c163aa2e5/78612/neovim_final_screenshot.png 1260w,
+/static/6073bed55180e88e50147e3c163aa2e5/5fada/neovim_final_screenshot.png 1706w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&quot;gatsby-resp-image-figcaption&quot;&gt; &lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;</content:encoded></item><item><title><![CDATA[The 1 Billion Row Challenge - Part 2]]></title><description><![CDATA[I recently wrote about my solution to the
 The 1 Billion Row Challenge, a challenge
 that requires you to read 1 billion rows from a text file…]]></description><link>https://errorsignal.dev/1-billion-row-challenge-part-2/</link><guid isPermaLink="false">https://errorsignal.dev/1-billion-row-challenge-part-2/</guid><pubDate>Sat, 17 Feb 2024 10:46:00 GMT</pubDate><content:encoded>&lt;p&gt;I recently wrote about my solution to the
 &lt;a href=&quot;../1-billion-row-challenge-part-1&quot;&gt;The 1 Billion Row Challenge&lt;/a&gt;, a challenge
