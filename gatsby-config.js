@@ -16,14 +16,14 @@ module.exports = {
     title: `Error Signal`,
     author: {
       name: `Matthew Emerson`,
-      summary: `Turning 'how does that work?' into code.`,
+      summary: `Software Engineer`,
     },
-    description: `Error Signal is where curiosity meets code. Here, you'll find 
-      an insightful exploration into the technology that shapes our modern 
-      world as I peel back the layers of abstraction.`,
+    description: `Error Signal is a collection of my random musings on technology.`,
     siteUrl: `https://errorsignal.dev`,
     social: {
       twitter: `XyliteZero`,
+      linkedin: `emersonmde`,
+      photography: `https://memerson.dev/photos`
     },
   },
   plugins: [
