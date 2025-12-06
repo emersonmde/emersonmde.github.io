@@ -101,6 +101,16 @@ import { AUTHOR, SOCIAL } from '../consts';
                             <span class="action-key">[r]</span> Docs
                           </a>
                         )}
+                        {project.crate && (
+                          <a
+                            href={project.crate}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="action-link crate"
+                          >
+                            <span class="action-key">[c]</span> Crate
+                          </a>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -244,9 +254,9 @@ import { AUTHOR, SOCIAL } from '../consts';
 
   .tag {
     font-size: var(--es-text-xs);
-    color: var(--es-blue);
+    color: var(--es-purple);
     background: transparent;
-    border: 1px solid var(--es-blue);
+    border: 1px solid var(--es-purple);
     padding: 1px 6px;
     border-radius: 3px;
     font-family: var(--es-font-mono);

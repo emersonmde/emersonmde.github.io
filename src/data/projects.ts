@@ -8,6 +8,7 @@ export interface Project {
   github: string;
   demo?: string;
   docs?: string;
+  crate?: string;
 }
 
 export const projects: Project[] = [
@@ -32,6 +33,7 @@ export const projects: Project[] = [
     tags: ['llm', 'async', 'crate'],
     github: 'https://github.com/emersonmde/anchor-chain',
     docs: 'https://docs.rs/anchor-chain',
+    crate: 'https://crates.io/crates/anchor-chain',
   },
   {
     name: 'daedalus',
@@ -54,6 +56,7 @@ export const projects: Project[] = [
     tags: ['distributed', 'consensus', 'grpc'],
     github: 'https://github.com/emersonmde/railyard',
     docs: 'https://docs.rs/railyard',
+    crate: 'https://crates.io/crates/railyard',
   },
   {
     name: 'nenya',
@@ -65,17 +68,7 @@ export const projects: Project[] = [
     tags: ['pid', 'grpc', 'crate'],
     github: 'https://github.com/emersonmde/nenya',
     docs: 'https://docs.rs/nenya',
-  },
-  {
-    name: 'atium',
-    language: 'rust',
-    languageColor: 'var(--es-orange)',
-    shortDescription: 'Computer algebra system',
-    description:
-      'CAS with expression parsing, algebraic simplification, and symbolic manipulation. Renders mathematical output via Typst. Supports term rewriting, expression flattening, and like-term combination.',
-    tags: ['math', 'parser', 'typst'],
-    github: 'https://github.com/emersonmde/atium',
-    demo: 'https://emersonmde.github.io/atium/atium/index.html',
+    crate: 'https://crates.io/crates/nenya',
   },
   {
     name: 'reprisedb',
@@ -98,16 +91,6 @@ export const projects: Project[] = [
     github: 'https://github.com/emersonmde/bloombox',
   },
   {
-    name: 'double_barrel',
-    language: 'rust',
-    languageColor: 'var(--es-orange)',
-    shortDescription: '6502 CPU emulator',
-    description:
-      'Cycle-accurate emulation of the MOS 6502 processor. Implements the full instruction set with proper addressing modes. Foundation for retro computing projects (NES, Apple II, C64).',
-    tags: ['emulator', '6502', 'retro'],
-    github: 'https://github.com/emersonmde/double_barrel',
-  },
-  {
     name: 'palantir',
     language: 'c',
     languageColor: 'var(--es-blue)',
@@ -126,5 +109,26 @@ export const projects: Project[] = [
       'Emulator for the CHIP-8 interpreted language. SDL2 graphics rendering, opcode decoding, and memory-mapped I/O. Classic first step into emulation development.',
     tags: ['emulator', 'sdl2', 'graphics'],
     github: 'https://github.com/emersonmde/chip8-emulator',
+  },
+  {
+    name: 'double_barrel',
+    language: 'rust',
+    languageColor: 'var(--es-orange)',
+    shortDescription: '6502 CPU emulator',
+    description:
+      'Cycle-accurate emulation of the MOS 6502 processor. Implements the full instruction set with proper addressing modes. Foundation for retro computing projects (NES, Apple II, C64).',
+    tags: ['emulator', '6502', 'retro'],
+    github: 'https://github.com/emersonmde/double_barrel',
+  },
+  {
+    name: 'atium',
+    language: 'rust',
+    languageColor: 'var(--es-orange)',
+    shortDescription: 'Computer algebra system',
+    description:
+      'CAS with expression parsing, algebraic simplification, and symbolic manipulation. Renders mathematical output via Typst. Supports term rewriting, expression flattening, and like-term combination.',
+    tags: ['math', 'parser', 'typst'],
+    github: 'https://github.com/emersonmde/atium',
+    docs: 'https://emersonmde.github.io/atium/atium/index.html',
   },
 ];
