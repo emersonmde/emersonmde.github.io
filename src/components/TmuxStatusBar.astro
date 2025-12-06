@@ -1,0 +1,147 @@
+---
+interface Props {
+  activeTab?: string;
+  path?: string;
+  hints?: string;
+}
+
+const { activeTab = 'projects', path = '~', hints = '' } = Astro.props;
+
+const tabs = [
+  { id: 'projects', label: 'projects', href: '/' },
+  { id: 'photos', label: 'photos', href: '/photos' },
+  { id: 'blog', label: 'blog', href: '/blog' },
+];
+---
+
+<div class="tmux-bar">
+  <div class="tmux-left">
+    <span class="tmux-session">[error-signal]</span>
+    <nav class="tmux-tabs">
+      {tabs.map((tab, index) => (
+        <a
+          href={tab.href}
+          class:list={['tmux-tab', { active: activeTab === tab.id }]}
+        >
+          {index}:{tab.label}{activeTab === tab.id ? '*' : ''}
+        </a>
+      ))}
+    </nav>
+  </div>
+  <div class="tmux-right">
+    {hints && <span class="tmux-hints">{hints}</span>}
+    <span class="tmux-path">{path}</span>
+    <span class="tmux-time" id="tmux-time"></span>
+  </div>
+</div>
+
+<script>
+  function updateTime() {
+    const timeEl = document.getElementById('tmux-time');
+    if (timeEl) {
+      const now = new Date();
+      const time = now.toLocaleTimeString('en-US', {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false
+      });
+      const date = now.toLocaleDateString('en-US', {
+        month: 'short',
+        day: '2-digit'
+      });
+      timeEl.textContent = `${time} ${date}`;
+    }
+  }
+
+  updateTime();
+  setInterval(updateTime, 1000);
+</script>
+
+<style>
+  .tmux-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 var(--es-space-2);
+    background-color: var(--es-bg0);
+    color: var(--es-fg);
+    font-size: var(--es-text-sm);
+    height: 1.75rem;
+    flex-shrink: 0;
+  }
+
+  .tmux-left {
+    display: flex;
+    align-items: center;
+    gap: var(--es-space-1);
+  }
+
+  .tmux-session {
+    color: var(--es-black);
+    background-color: var(--es-green);
+    padding: 0 var(--es-space-2);
+    font-weight: bold;
+  }
+
+  .tmux-tabs {
+    display: flex;
+  }
+
+  .tmux-tab {
+    color: var(--es-grey);
+    text-decoration: none;
+    padding: 0 var(--es-space-2);
+    transition: color var(--es-duration-fast);
+  }
+
+  .tmux-tab:hover {
+    color: var(--es-fg);
+  }
+
+  .tmux-tab.active {
+    color: var(--es-fg);
+    background-color: var(--es-bg3);
+  }
+
+  .tmux-right {
+    display: flex;
+    align-items: center;
+    gap: var(--es-space-3);
+  }
+
+  .tmux-hints {
+    color: var(--es-green);
+    font-size: var(--es-text-xs);
+    font-weight: bold;
+  }
+
+  :global(.tmux-hints.normal-mode) {
+    color: var(--es-blue);
+  }
+
+  .tmux-path {
+    color: var(--es-blue);
+  }
+
+  .tmux-time {
+    color: var(--es-fg);
+    background-color: var(--es-bg3);
+    padding: 0 var(--es-space-2);
+  }
+
+  @media (max-width: 640px) {
+    .tmux-hints {
+      display: none;
+    }
+
+    .tmux-tab {
+      padding: 0 var(--es-space-1);
+      font-size: var(--es-text-xs);
+    }
+
+    .tmux-session {
+      font-size: var(--es-text-xs);
+      padding: 0 var(--es-space-1);
+    }
+  }
+</style>

@@ -1,0 +1,142 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+---
+
+<BaseLayout
+  title="Blog"
+  description="Technical writing about systems programming, distributed systems, and more"
+  virtualPath="~/blog"
+  statusHints="INSERT"
+  activeTab="blog"
+>
+  <div class="blog-list">
+      {posts.length === 0 ? (
+        <p class="text-muted">No posts found.</p>
+      ) : (
+        <ul class="posts" role="list">
+          {posts.map((post) => (
+            <li class="post-item" tabindex="0" role="link">
+              <a href={`/blog/${post.id}/`} class="post-link">
+                <div class="post-header">
+                  <span class="post-date">
+                    {post.data.date.toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: '2-digit',
+                      day: '2-digit',
+                    })}
+                  </span>
+                  <span class="post-title">{post.data.title}</span>
+                </div>
+                <p class="post-description">{post.data.description}</p>
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
+  </div>
+</BaseLayout>
+
+<style>
+  .blog-list {
+    max-width: var(--es-content-width);
+  }
+
+  .posts {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .post-item {
+    border-radius: 2px;
+    transition: background-color var(--es-duration-fast) var(--es-easing);
+  }
+
+  .post-item:hover,
+  .post-item:focus-within {
+    background-color: var(--es-bg3);
+    outline: none;
+  }
+
+  .post-link {
+    display: block;
+    padding: var(--es-space-3) var(--es-space-2);
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .post-header {
+    display: flex;
+    gap: var(--es-space-4);
+    margin-bottom: var(--es-space-1);
+  }
+
+  .post-date {
+    color: var(--es-grey);
+    font-size: var(--es-text-sm);
+    flex-shrink: 0;
+    min-width: 10ch;
+  }
+
+  .post-title {
+    color: var(--es-fg);
+    font-weight: var(--es-font-medium);
+  }
+
+  .post-description {
+    color: var(--es-grey-dim);
+    font-size: var(--es-text-sm);
+    margin: 0;
+    padding-left: calc(10ch + var(--es-space-4));
+    line-height: var(--es-leading-relaxed);
+  }
+
+  @media (max-width: 640px) {
+    .post-header {
+      flex-direction: column;
+      gap: var(--es-space-1);
+    }
+
+    .post-date {
+      min-width: auto;
+      font-size: var(--es-text-xs);
+    }
+
+    .post-description {
+      padding-left: 0;
+    }
+  }
+</style>
+
+<script>
+  // Keyboard navigation for blog list (only active in vim mode)
+  document.addEventListener('keydown', (e) => {
+    // Only handle navigation keys when in vim mode
+    if (!(window as any).vimMode) {
+      return;
+    }
+
+    const items = Array.from(document.querySelectorAll('.post-item'));
+    const focusedIndex = items.findIndex((item) => item.contains(document.activeElement) || item === document.activeElement);
+
+    if (e.key === 'j' || e.key === 'ArrowDown') {
+      e.preventDefault();
+      const nextIndex = focusedIndex < items.length - 1 ? focusedIndex + 1 : 0;
+      (items[nextIndex] as HTMLElement).focus();
+    } else if (e.key === 'k' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      const prevIndex = focusedIndex > 0 ? focusedIndex - 1 : items.length - 1;
+      (items[prevIndex] as HTMLElement).focus();
+    } else if (e.key === 'Enter' && focusedIndex >= 0) {
+      const link = items[focusedIndex].querySelector('a');
+      if (link) {
+        link.click();
+      }
+    }
+  });
+</script>

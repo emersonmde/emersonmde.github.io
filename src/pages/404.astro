@@ -1,0 +1,50 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="404: Not Found" virtualPath="~">
+  <div class="error-page">
+    <h1 class="error-code">404</h1>
+    <p class="error-message">
+      <span class="text-red">error:</span> path not found
+    </p>
+    <p class="error-hint">
+      The requested resource does not exist. Try navigating to a valid path.
+    </p>
+    <div class="error-actions">
+      <a href="/" class="error-link">[back to ~/projects]</a>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .error-page {
+    text-align: center;
+    padding: var(--es-space-12) var(--es-space-4);
+  }
+
+  .error-code {
+    font-size: var(--es-text-3xl);
+    color: var(--es-red);
+    margin-bottom: var(--es-space-4);
+  }
+
+  .error-message {
+    font-size: var(--es-text-lg);
+    margin-bottom: var(--es-space-4);
+  }
+
+  .error-hint {
+    color: var(--es-grey);
+    margin-bottom: var(--es-space-6);
+  }
+
+  .error-link {
+    color: var(--es-blue);
+    text-decoration: none;
+  }
+
+  .error-link:hover {
+    color: var(--es-green);
+  }
+</style>

@@ -1,0 +1,398 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { projects } from '../data/projects';
+import { AUTHOR, SOCIAL } from '../consts';
+---
+
+<BaseLayout
+  title="Projects"
+  description="Matthew Emerson's portfolio - Systems engineering projects in Rust, C, and more"
+  virtualPath="~/projects"
+  statusHints="INSERT"
+  activeTab="projects"
+>
+  <div class="projects-page">
+      <!-- Bio Section -->
+      <section class="bio-section">
+        <h1 class="bio-name">{AUTHOR.name}</h1>
+        <p class="bio-title">{AUTHOR.summary}</p>
+        <div class="bio-links">
+          <a href={SOCIAL.github} target="_blank" rel="noopener noreferrer">
+            github.com/emersonmde
+          </a>
+          <span class="bio-separator">·</span>
+          <a href={SOCIAL.linkedin} target="_blank" rel="noopener noreferrer">
+            linkedin.com/in/emersonmde
+          </a>
+        </div>
+      </section>
+
+      <hr class="divider" />
+
+      <!-- Projects Table -->
+      <section class="projects-section">
+        <div class="projects-header">
+          <span class="col-name">NAME</span>
+          <span class="col-lang">LANG</span>
+          <span class="col-desc">DESCRIPTION</span>
+          <span class="col-stars">★</span>
+        </div>
+
+        <hr class="divider-thin" />
+
+        <ul class="projects-list" role="list">
+          {projects.map((project, index) => (
+            <li
+              class="project-row"
+              data-project={project.name}
+              tabindex="0"
+              role="button"
+              aria-expanded={index === 0 ? "true" : "false"}
+            >
+              <div class="project-summary">
+                <span class="project-indicator">&gt;</span>
+                <span class="project-name">{project.name}</span>
+                <span class="project-lang" style={`color: ${project.languageColor}`}>
+                  {project.language}
+                </span>
+                <span class="project-short-desc">{project.shortDescription}</span>
+                <span class="project-stars">{project.stars}</span>
+              </div>
+
+              <div class="project-expanded" aria-hidden={index === 0 ? "false" : "true"}>
+                <div class="project-details">
+                  <div class="project-meta">
+                    <span style={`color: ${project.languageColor}`}>{project.language}</span>
+                    <span class="text-muted">·</span>
+                    <span class="text-yellow">★ {project.stars}</span>
+                  </div>
+                  <p class="project-description">{project.description}</p>
+                  <div class="project-actions">
+                    <a
+                      href={project.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="project-btn"
+                    >
+                      [GitHub]
+                    </a>
+                    {project.demo && (
+                      <a
+                        href={project.demo}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="project-btn"
+                      >
+                        [Demo]
+                      </a>
+                    )}
+                    {project.docs && (
+                      <a
+                        href={project.docs}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="project-btn"
+                      >
+                        [Docs]
+                      </a>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .projects-page {
+    max-width: var(--es-content-width);
+  }
+
+  /* Bio Section */
+  .bio-section {
+    margin-bottom: var(--es-space-4);
+  }
+
+  .bio-name {
+    font-size: var(--es-text-xl);
+    margin-bottom: var(--es-space-1);
+  }
+
+  .bio-title {
+    color: var(--es-grey);
+    margin-bottom: var(--es-space-2);
+  }
+
+  .bio-links {
+    font-size: var(--es-text-sm);
+  }
+
+  .bio-links a {
+    color: var(--es-blue);
+  }
+
+  .bio-separator {
+    color: var(--es-grey-dim);
+    margin: 0 var(--es-space-2);
+  }
+
+  /* Dividers */
+  .divider {
+    border: none;
+    height: 1px;
+    background: var(--es-border);
+    margin: var(--es-space-4) 0;
+  }
+
+  .divider-thin {
+    border: none;
+    height: 1px;
+    background: var(--es-border-dim);
+    margin: var(--es-space-2) 0;
+  }
+
+  /* Projects Table */
+  .projects-header {
+    display: grid;
+    grid-template-columns: 2ch minmax(120px, 1fr) minmax(50px, 80px) 2fr minmax(30px, 50px);
+    gap: var(--es-space-3);
+    color: var(--es-grey);
+    font-size: var(--es-text-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: var(--es-space-2) 0;
+  }
+
+  .projects-header .col-name {
+    grid-column: 2;
+  }
+
+  .projects-header .col-stars {
+    text-align: right;
+  }
+
+  .projects-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  /* Project Row */
+  .project-row {
+    cursor: pointer;
+    border-radius: 2px;
+    transition: background-color var(--es-duration-fast) var(--es-easing);
+  }
+
+  .project-row:hover,
+  .project-row:focus {
+    background-color: var(--es-bg3);
+    outline: none;
+  }
+
+  .project-row[aria-expanded='true'] {
+    background-color: var(--es-bg2);
+  }
+
+  .project-summary {
+    display: grid;
+    grid-template-columns: 2ch minmax(120px, 1fr) minmax(50px, 80px) 2fr minmax(30px, 50px);
+    gap: var(--es-space-3);
+    padding: var(--es-space-2) 0;
+    align-items: center;
+  }
+
+  .project-indicator {
+    color: var(--es-green);
+    opacity: 0;
+    transition: opacity var(--es-duration-fast) var(--es-easing);
+    font-family: var(--es-font-mono);
+  }
+
+  .project-row:hover .project-indicator,
+  .project-row:focus .project-indicator,
+  .project-row[aria-expanded='true'] .project-indicator {
+    opacity: 1;
+  }
+
+  .project-row[aria-expanded='true'] .project-indicator {
+    transform: rotate(90deg);
+  }
+
+  .project-name {
+    color: var(--es-fg);
+    font-weight: var(--es-font-medium);
+  }
+
+  .project-lang {
+    font-size: var(--es-text-sm);
+  }
+
+  .project-short-desc {
+    color: var(--es-grey);
+    font-size: var(--es-text-sm);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .project-stars {
+    color: var(--es-yellow);
+    text-align: right;
+    font-size: var(--es-text-sm);
+  }
+
+  /* Expanded View */
+  .project-expanded {
+    display: none;
+    padding: var(--es-space-2) 0 var(--es-space-4) 2ch;
+    border-bottom: 1px solid var(--es-border-dim);
+  }
+
+  .project-row[aria-expanded='true'] .project-expanded {
+    display: block;
+  }
+
+  .project-details {
+    padding-left: var(--es-space-4);
+    border-left: 2px solid var(--es-border);
+  }
+
+  .project-meta {
+    font-size: var(--es-text-sm);
+    margin-bottom: var(--es-space-3);
+    display: flex;
+    gap: var(--es-space-2);
+  }
+
+  .project-description {
+    color: var(--es-grey);
+    font-size: var(--es-text-sm);
+    line-height: var(--es-leading-relaxed);
+    margin-bottom: var(--es-space-4);
+    max-width: 60ch;
+  }
+
+  .project-actions {
+    display: flex;
+    gap: var(--es-space-3);
+  }
+
+  .project-btn {
+    color: var(--es-blue);
+    font-size: var(--es-text-sm);
+    text-decoration: none;
+    transition: color var(--es-duration-fast) var(--es-easing);
+  }
+
+  .project-btn:hover {
+    color: var(--es-green);
+  }
+
+  /* Mobile Responsive */
+  @media (max-width: 640px) {
+    .projects-header {
+      display: none;
+    }
+
+    .project-summary {
+      grid-template-columns: 2ch 1fr auto;
+      grid-template-rows: auto auto;
+    }
+
+    .project-name {
+      grid-column: 2;
+    }
+
+    .project-lang {
+      grid-column: 3;
+    }
+
+    .project-short-desc {
+      grid-column: 2 / -1;
+      grid-row: 2;
+      font-size: var(--es-text-xs);
+    }
+
+    .project-stars {
+      display: none;
+    }
+
+    .project-expanded {
+      padding-left: 0;
+    }
+
+    .project-details {
+      padding-left: var(--es-space-3);
+    }
+  }
+</style>
+
+<script>
+  // Handle project row expansion
+  document.querySelectorAll('.project-row').forEach((row) => {
+    row.addEventListener('click', () => {
+      const isExpanded = row.getAttribute('aria-expanded') === 'true';
+
+      // Collapse all other rows
+      document.querySelectorAll('.project-row').forEach((r) => {
+        r.setAttribute('aria-expanded', 'false');
+        r.querySelector('.project-expanded')?.setAttribute('aria-hidden', 'true');
+      });
+
+      // Toggle this row
+      if (!isExpanded) {
+        row.setAttribute('aria-expanded', 'true');
+        row.querySelector('.project-expanded')?.setAttribute('aria-hidden', 'false');
+      }
+    });
+
+    row.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        (row as HTMLElement).click();
+      }
+    });
+  });
+
+  // Keyboard navigation (only active in vim mode)
+  document.addEventListener('keydown', (e) => {
+    // Only handle navigation keys when in vim mode
+    if (!(window as any).vimMode) {
+      return;
+    }
+
+    const rows = Array.from(document.querySelectorAll('.project-row'));
+    const focusedIndex = rows.findIndex((r) => r === document.activeElement);
+
+    if (e.key === 'j' || e.key === 'ArrowDown') {
+      e.preventDefault();
+      const nextIndex = focusedIndex < rows.length - 1 ? focusedIndex + 1 : 0;
+      (rows[nextIndex] as HTMLElement).focus();
+    } else if (e.key === 'k' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      const prevIndex = focusedIndex > 0 ? focusedIndex - 1 : rows.length - 1;
+      (rows[prevIndex] as HTMLElement).focus();
+    } else if (e.key === 'g' && document.activeElement?.classList.contains('project-row')) {
+      e.preventDefault();
+      const projectName = document.activeElement.getAttribute('data-project');
+      const project = projects.find((p) => p.name === projectName);
+      if (project?.github) {
+        window.open(project.github, '_blank');
+      }
+    }
+  });
+
+  // Import projects data for keyboard shortcut
+  const projects = [
+    { name: 'coppermind', github: 'https://github.com/emersonmde/coppermind' },
+    { name: 'reprisedb', github: 'https://github.com/emersonmde/reprisedb' },
+    { name: 'railyard', github: 'https://github.com/emersonmde/railyard' },
+    { name: 'nenya', github: 'https://github.com/emersonmde/nenya' },
+    { name: 'touchstone', github: 'https://github.com/emersonmde/touchstone' },
+    { name: 'chip8-emulator', github: 'https://github.com/emersonmde/chip8-emulator' },
+  ];
+</script>

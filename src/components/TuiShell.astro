@@ -1,0 +1,546 @@
+---
+import TmuxStatusBar from './TmuxStatusBar.astro';
+
+interface Props {
+  currentPath?: string;
+  virtualPath?: string;
+  statusHints?: string;
+  activeTab?: string;
+}
+
+const { currentPath = '/', virtualPath = '~', statusHints = '', activeTab = 'projects' } = Astro.props;
+---
+
+<div class="terminal">
+  <div class="terminal-window">
+    <div class="terminal-content" id="terminal-content">
+      <!-- Main page content -->
+      <div id="main-content">
+        <slot />
+      </div>
+
+      <!-- Terminal output area - command results appear here (below main content) -->
+      <div id="terminal-output"></div>
+
+      <!-- Command prompt at bottom of content -->
+      <div class="prompt-line" id="prompt-line">
+        <span class="prompt-symbol">❯</span>
+        <div class="prompt-input-wrapper">
+          <input
+            type="text"
+            class="prompt-input"
+            id="command-input"
+            placeholder=""
+            autocomplete="off"
+            spellcheck="false"
+            aria-label="Command input"
+          />
+          <span class="prompt-cursor"></span>
+        </div>
+      </div>
+
+    </div>
+
+    <TmuxStatusBar activeTab={activeTab} path={virtualPath} hints={statusHints} />
+  </div>
+</div>
+
+<script>
+  const input = document.getElementById('command-input') as HTMLInputElement;
+  const terminalOutput = document.getElementById('terminal-output') as HTMLDivElement;
+  const terminalContent = document.getElementById('terminal-content') as HTMLDivElement;
+  const mainContent = document.getElementById('main-content') as HTMLDivElement;
+  const hintsElement = document.querySelector('.tmux-hints') as HTMLSpanElement;
+
+  // Command history
+  let commandHistory: string[] = [];
+  let historyIndex = -1;
+
+  // Track if we're in "vim mode" for navigation (default: false, typing goes to input)
+  // Expose globally so page scripts can check it
+  (window as any).vimMode = false;
+
+  // Visual indicator for vim mode
+  const promptSymbol = document.querySelector('.prompt-symbol') as HTMLElement;
+
+  function setVimMode(enabled: boolean) {
+    (window as any).vimMode = enabled;
+    if (enabled) {
+      input?.blur();
+      promptSymbol?.classList.add('vim-mode');
+      if (hintsElement) {
+        hintsElement.textContent = 'NORMAL';
+        hintsElement.classList.add('normal-mode');
+      }
+    } else {
+      promptSymbol?.classList.remove('vim-mode');
+      if (hintsElement) {
+        hintsElement.textContent = 'INSERT';
+        hintsElement.classList.remove('normal-mode');
+      }
+    }
+  }
+
+  // Scroll terminal to bottom - scroll the prompt into view
+  function scrollToBottom() {
+    // Try multiple scroll methods to ensure it works
+    const promptLine = document.getElementById('prompt-line');
+    if (promptLine) {
+      promptLine.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    }
+    // Also scroll the terminal content container
+    terminalContent.scrollTop = terminalContent.scrollHeight;
+    // And window scroll as fallback
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+  }
+
+  // Focus input by default on page load
+  setTimeout(() => input?.focus(), 100);
+
+  // Helper to check vim mode
+  function isVimMode() {
+    return (window as any).vimMode === true;
+  }
+
+  // Capture keypresses globally
+  document.addEventListener('keydown', (e) => {
+    const target = e.target as HTMLElement;
+
+    // If focused on another input/textarea (not our command input), let it handle normally
+    if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA') {
+      if (target !== input) {
+        return;
+      }
+    }
+
+    // Escape toggles vim mode
+    if (e.key === 'Escape') {
+      e.preventDefault();
+      if (isVimMode()) {
+        // Exit vim mode, focus input
+        setVimMode(false);
+        input?.focus();
+      } else {
+        // Enter vim mode, blur input
+        setVimMode(true);
+        if (input) input.value = '';
+      }
+      return;
+    }
+
+    // In vim mode, handle navigation keys
+    if (isVimMode()) {
+      // ? shows help
+      if (e.key === '?') {
+        e.preventDefault();
+        showHelp();
+        return;
+      }
+
+      // i, :, or / exits vim mode and focuses input
+      if (e.key === 'i' || e.key === ':' || e.key === '/') {
+        e.preventDefault();
+        setVimMode(false);
+        input?.focus();
+        return;
+      }
+
+      // j/k/g/G are handled by page-specific handlers
+      // Don't prevent default so they bubble up
+      if (['j', 'k', 'g', 'G'].includes(e.key)) {
+        return;
+      }
+
+      // Other keys in vim mode - ignore (don't let them type)
+      if (e.key.length === 1) {
+        e.preventDefault();
+      }
+      return;
+    }
+
+    // Not in vim mode - all typing goes to input
+    // Only intercept if not already focused on input (let browser handle normal typing)
+    if (target !== input && e.key.length === 1 && !e.ctrlKey && !e.metaKey && !e.altKey) {
+      e.preventDefault();
+      input?.focus();
+      if (input) {
+        input.value += e.key;
+      }
+    }
+  });
+
+  // Handle command input
+  input?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      const command = input.value.trim();
+      if (command) {
+        executeCommand(command);
+        commandHistory.unshift(command);
+        historyIndex = -1;
+      }
+      input.value = '';
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      if (historyIndex < commandHistory.length - 1) {
+        historyIndex++;
+        input.value = commandHistory[historyIndex] || '';
+      }
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      if (historyIndex > 0) {
+        historyIndex--;
+        input.value = commandHistory[historyIndex] || '';
+      } else if (historyIndex === 0) {
+        historyIndex = -1;
+        input.value = '';
+      }
+    }
+    // Note: Escape is handled by the global handler above
+  });
+
+  // Append output to terminal (like a real terminal)
+  function appendOutput(html: string) {
+    const line = document.createElement('div');
+    line.className = 'terminal-line';
+    line.innerHTML = html;
+    terminalOutput.appendChild(line);
+
+    // Scroll to bottom after a brief delay to ensure DOM is updated
+    requestAnimationFrame(() => {
+      scrollToBottom();
+    });
+  }
+
+  // Show command that was executed
+  function showCommand(cmd: string) {
+    appendOutput(`<span class="prompt-echo">❯</span> <span class="command-echo">${escapeHtml(cmd)}</span>`);
+  }
+
+  function escapeHtml(text: string): string {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
+  function showHelp() {
+    const helpText = `
+<span class="help-title">Available Commands:</span>
+  <span class="help-cmd">ls</span>          List directories and files
+  <span class="help-cmd">cd &lt;path&gt;</span>   Navigate to a page (projects, photos, blog, about)
+  <span class="help-cmd">pwd</span>         Print current directory
+  <span class="help-cmd">cat &lt;file&gt;</span>  View file contents
+  <span class="help-cmd">open &lt;name&gt;</span> Open a project on GitHub
+  <span class="help-cmd">clear</span>       Clear terminal output
+  <span class="help-cmd">help</span>        Show this help message
+
+<span class="help-title">Keyboard Shortcuts:</span>
+  <span class="help-key">Escape</span>     Toggle vim mode (prompt turns <span class="help-cmd">blue</span> when active)
+
+  <span class="help-title">In vim mode:</span>
+  <span class="help-key">j/k</span>        Navigate lists up/down
+  <span class="help-key">Enter</span>      Select/open item
+  <span class="help-key">i</span> <span class="help-key">:</span> <span class="help-key">/</span>      Exit vim mode, start typing
+  <span class="help-key">?</span>          Show this help`;
+    appendOutput(`<pre class="help-output">${helpText}</pre>`);
+  }
+
+  // Get current path from the page
+  function getCurrentPath(): string {
+    const path = document.querySelector('.tmux-path')?.textContent || '~';
+    return path;
+  }
+
+  function executeCommand(cmd: string) {
+    showCommand(cmd);
+
+    const parts = cmd.trim().split(/\s+/);
+    const command = parts[0].toLowerCase();
+    const args = parts.slice(1);
+
+    switch (command) {
+      case 'cd':
+        const target = args[0] || '~';
+        if (target === '~' || target === 'projects' || target === '~/projects' || target === '/') {
+          window.location.href = '/';
+        } else if (target === 'photos' || target === '~/photos') {
+          window.location.href = '/photos';
+        } else if (target === 'blog' || target === '~/blog') {
+          window.location.href = '/blog';
+        } else if (target === 'about' || target === '~/about.md' || target === 'about.md') {
+          window.location.href = '/about';
+        } else if (target === '..') {
+          // Go up one level
+          const currentPath = getCurrentPath();
+          if (currentPath.includes('/')) {
+            window.location.href = '/';
+          }
+        } else {
+          appendOutput(`<span class="error">cd: no such directory: ${escapeHtml(target)}</span>`);
+        }
+        break;
+
+      case 'ls':
+        const lsTarget = args[0] || getCurrentPath();
+        let listing = '';
+
+        if (lsTarget === '~' || lsTarget === '/' || lsTarget === '.' || !args[0]) {
+          listing = `<span class="dir">projects/</span>  <span class="dir">photos/</span>  <span class="dir">blog/</span>  <span class="file">about.md</span>`;
+        } else if (lsTarget === 'projects' || lsTarget === '~/projects') {
+          listing = `<span class="file">coppermind</span>  <span class="file">reprisedb</span>  <span class="file">railyard</span>  <span class="file">nenya</span>  <span class="file">touchstone</span>  <span class="file">chip8-emulator</span>`;
+        } else if (lsTarget === 'blog' || lsTarget === '~/blog') {
+          listing = `<span class="file">anchor-chain.md</span>  <span class="file">brave-neo-world.md</span>  <span class="file">dotfiles-on-demand.md</span>`;
+        } else {
+          appendOutput(`<span class="error">ls: cannot access '${escapeHtml(lsTarget)}': No such file or directory</span>`);
+          break;
+        }
+        appendOutput(listing);
+        break;
+
+      case 'pwd':
+        appendOutput(getCurrentPath());
+        break;
+
+      case 'cat':
+        const file = args[0];
+        if (!file) {
+          appendOutput(`<span class="error">cat: missing file operand</span>`);
+        } else if (file === 'about.md' || file === '~/about.md') {
+          window.location.href = '/about';
+        } else {
+          appendOutput(`<span class="error">cat: ${escapeHtml(file)}: No such file or directory</span>`);
+        }
+        break;
+
+      case 'help':
+        showHelp();
+        break;
+
+      case 'open':
+        const item = args[0];
+        if (item) {
+          const projects = ['coppermind', 'reprisedb', 'railyard', 'nenya', 'touchstone', 'chip8-emulator'];
+          if (projects.includes(item)) {
+            appendOutput(`Opening <span class="link">github.com/emersonmde/${item}</span>...`);
+            window.open(`https://github.com/emersonmde/${item}`, '_blank');
+          } else {
+            appendOutput(`<span class="error">open: unknown project: ${escapeHtml(item)}</span>`);
+          }
+        } else {
+          appendOutput(`<span class="error">open: missing project name</span>`);
+        }
+        break;
+
+      case 'clear':
+        terminalOutput.innerHTML = '';
+        break;
+
+      case 'whoami':
+        appendOutput('matthew');
+        break;
+
+      case 'echo':
+        appendOutput(escapeHtml(args.join(' ')));
+        break;
+
+      case 'sudo':
+        appendOutput(`<span class="error">Nice try.</span>`);
+        break;
+
+      case 'rm':
+        if (args.includes('-rf') && (args.includes('/') || args.includes('~'))) {
+          appendOutput(`<span class="warning">💥 Boom! Just kidding, this is a static site.</span>`);
+        } else {
+          appendOutput(`<span class="error">rm: operation not permitted</span>`);
+        }
+        break;
+
+      case 'vim':
+      case 'nvim':
+      case 'vi':
+        appendOutput(`<span class="success">Ah, I see you're a person of culture.</span>`);
+        break;
+
+      case 'emacs':
+        appendOutput(`<span class="warning">M-x butterfly</span>`);
+        break;
+
+      case 'exit':
+        appendOutput('Goodbye!');
+        setTimeout(() => {
+          window.open('https://github.com/emersonmde', '_blank');
+        }, 500);
+        break;
+
+      default:
+        appendOutput(`<span class="error">command not found: ${escapeHtml(command)}</span>`);
+    }
+  }
+</script>
+
+<style>
+  .terminal {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    background-color: var(--es-black);
+    font-family: var(--es-font-mono);
+  }
+
+  .terminal-window {
+    display: flex;
+    flex-direction: column;
+    max-width: 1000px;
+    width: 100%;
+    min-height: 100vh;
+    background-color: var(--es-bg-dim);
+  }
+
+  .terminal-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: var(--es-space-4);
+    overflow: auto;
+  }
+
+  .prompt-line {
+    display: flex;
+    align-items: center;
+    margin-top: auto;
+    padding-top: var(--es-space-4);
+  }
+
+  .prompt-symbol {
+    color: var(--es-green);
+    font-weight: bold;
+    margin-right: var(--es-space-2);
+    transition: color 0.15s ease;
+  }
+
+  /* Vim mode indicator - prompt turns blue */
+  .prompt-symbol.vim-mode {
+    color: var(--es-blue);
+  }
+
+  .prompt-input-wrapper {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    position: relative;
+  }
+
+  .prompt-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: var(--es-fg);
+    font-family: var(--es-font-mono);
+    font-size: var(--es-text-base);
+    padding: 0;
+    outline: none;
+    caret-color: var(--es-fg);
+  }
+
+  .prompt-cursor {
+    position: absolute;
+    left: 0;
+    width: 8px;
+    height: 1.2em;
+    background-color: var(--es-fg);
+    animation: blink 1s step-end infinite;
+  }
+
+  /* Hide blinking cursor when input is focused (use native caret instead) */
+  .prompt-input:focus ~ .prompt-cursor {
+    display: none;
+  }
+
+  @keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+  }
+
+  /* Terminal output area */
+  #terminal-output {
+    display: flex;
+    flex-direction: column;
+    gap: var(--es-space-1);
+  }
+
+  #terminal-output:empty {
+    display: none;
+  }
+
+  #terminal-output:not(:empty) {
+    margin-top: var(--es-space-4);
+    padding-top: var(--es-space-4);
+    border-top: 1px solid var(--es-border);
+  }
+
+  :global(.terminal-line) {
+    font-family: var(--es-font-mono);
+    font-size: var(--es-text-sm);
+    line-height: 1.5;
+  }
+
+  :global(.prompt-echo) {
+    color: var(--es-green);
+    font-weight: bold;
+  }
+
+  :global(.command-echo) {
+    color: var(--es-fg);
+  }
+
+  :global(.error) {
+    color: var(--es-red);
+  }
+
+  :global(.warning) {
+    color: var(--es-orange);
+  }
+
+  :global(.success) {
+    color: var(--es-green);
+  }
+
+  :global(.dir) {
+    color: var(--es-blue);
+  }
+
+  :global(.file) {
+    color: var(--es-fg);
+  }
+
+  :global(.link) {
+    color: var(--es-blue);
+    text-decoration: underline;
+  }
+
+  :global(.help-output) {
+    margin: 0;
+    font-family: var(--es-font-mono);
+    font-size: var(--es-text-sm);
+    line-height: 1.6;
+  }
+
+  :global(.help-title) {
+    color: var(--es-green);
+    font-weight: bold;
+  }
+
+  :global(.help-cmd) {
+    color: var(--es-blue);
+  }
+
+  :global(.help-key) {
+    color: var(--es-orange);
+  }
+
+  @media (max-width: 640px) {
+    .terminal-content {
+      padding: var(--es-space-3);
+    }
+  }
+</style>
