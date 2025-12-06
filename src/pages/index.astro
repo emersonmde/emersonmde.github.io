@@ -585,6 +585,43 @@ const projects = projectEntries
   setupProjectListeners();
   document.addEventListener('astro:after-swap', setupProjectListeners);
 
+  // Handle URL hash to expand specific project (for cat command)
+  function handleProjectHash() {
+    const hash = window.location.hash.slice(1);
+    if (!hash) return;
+
+    const projectRow = document.querySelector(`.project-row[data-project="${hash}"]`) as HTMLElement;
+    if (projectRow) {
+      // Show all projects first so the target is visible
+      const projectsList = document.getElementById('projects-list');
+      const showMoreBtn = document.getElementById('show-more-btn');
+      projectsList?.classList.add('show-all');
+      showMoreBtn?.setAttribute('aria-hidden', 'true');
+
+      // Collapse all and expand target
+      document.querySelectorAll('.project-row').forEach((r) => {
+        r.setAttribute('aria-expanded', 'false');
+        r.querySelector('.project-expanded')?.setAttribute('aria-hidden', 'true');
+      });
+
+      projectRow.setAttribute('aria-expanded', 'true');
+      projectRow.querySelector('.project-expanded')?.setAttribute('aria-hidden', 'false');
+
+      // Scroll to the project
+      setTimeout(() => {
+        projectRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        projectRow.focus();
+      }, 100);
+
+      // Clear the hash from URL
+      history.replaceState(null, '', window.location.pathname);
+    }
+  }
+
+  handleProjectHash();
+  document.addEventListener('astro:after-swap', handleProjectHash);
+  window.addEventListener('hashchange', handleProjectHash);
+
   document.addEventListener('keydown', (e) => {
     if (!window.vimMode) return;
 

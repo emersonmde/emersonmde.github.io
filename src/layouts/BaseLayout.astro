@@ -8,6 +8,17 @@ import '@fontsource/inter/500.css';
 import { ViewTransitions } from 'astro:transitions';
 import TuiShell from '../components/TuiShell.astro';
 import GlobalKeyboard from '../components/GlobalKeyboard';
+import { getCollection } from 'astro:content';
+
+// Fetch projects and blog posts for the terminal filesystem
+const projectEntries = await getCollection('projects');
+const projectsData = projectEntries.map(p => ({
+  name: p.data.name,
+  github: p.data.github,
+}));
+
+const blogEntries = await getCollection('blog');
+const blogSlugs = blogEntries.map(b => b.id);
 
 interface Props {
   title: string;
@@ -64,6 +75,8 @@ const {
       virtualPath={virtualPath}
       statusHints={statusHints}
       activeTab={activeTab}
+      projects={projectsData}
+      blogPosts={blogSlugs}
     >
       <slot />
     </TuiShell>
