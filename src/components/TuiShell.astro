@@ -287,7 +287,7 @@ const { currentPath = '/', virtualPath = '~', statusHints = '', activeTab = 'pro
         if (lsTarget === '~' || lsTarget === '/' || lsTarget === '.' || !args[0]) {
           listing = `<span class="dir">projects/</span>  <span class="dir">photos/</span>  <span class="dir">blog/</span>  <span class="file">about.md</span>`;
         } else if (lsTarget === 'projects' || lsTarget === '~/projects') {
-          listing = `<span class="file">coppermind</span>  <span class="file">reprisedb</span>  <span class="file">railyard</span>  <span class="file">nenya</span>  <span class="file">touchstone</span>  <span class="file">chip8-emulator</span>`;
+          listing = `<span class="file">coppermind</span>  <span class="file">anchor-chain</span>  <span class="file">daedalus</span>  <span class="file">railyard</span>  <span class="file">nenya</span>  <span class="file">atium</span>`;
         } else if (lsTarget === 'blog' || lsTarget === '~/blog') {
           listing = `<span class="file">anchor-chain.md</span>  <span class="file">brave-neo-world.md</span>  <span class="file">dotfiles-on-demand.md</span>`;
         } else {
@@ -319,7 +319,7 @@ const { currentPath = '/', virtualPath = '~', statusHints = '', activeTab = 'pro
       case 'open':
         const item = args[0];
         if (item) {
-          const projects = ['coppermind', 'reprisedb', 'railyard', 'nenya', 'touchstone', 'chip8-emulator'];
+          const projects = ['coppermind', 'anchor-chain', 'daedalus', 'railyard', 'nenya', 'atium'];
           if (projects.includes(item)) {
             appendOutput(`Opening <span class="link">github.com/emersonmde/${item}</span>...`);
             window.open(`https://github.com/emersonmde/${item}`, '_blank');

@@ -29,17 +29,8 @@ import { AUTHOR, SOCIAL } from '../consts';
 
       <hr class="divider" />
 
-      <!-- Projects Table -->
+      <!-- Projects List -->
       <section class="projects-section">
-        <div class="projects-header">
-          <span class="col-name">NAME</span>
-          <span class="col-lang">LANG</span>
-          <span class="col-desc">DESCRIPTION</span>
-          <span class="col-stars">★</span>
-        </div>
-
-        <hr class="divider-thin" />
-
         <ul class="projects-list" role="list">
           {projects.map((project, index) => (
             <li
@@ -50,52 +41,69 @@ import { AUTHOR, SOCIAL } from '../consts';
               aria-expanded={index === 0 ? "true" : "false"}
             >
               <div class="project-summary">
-                <span class="project-indicator">&gt;</span>
-                <span class="project-name">{project.name}</span>
-                <span class="project-lang" style={`color: ${project.languageColor}`}>
-                  {project.language}
+                <span class="project-indicator">▸</span>
+                <div class="project-info">
+                  <span class="project-name">{project.name}</span>
+                  <span class="project-short-desc">{project.shortDescription}</span>
+                </div>
+                <span class="project-tags">
+                  {project.tags.map((tag) => (
+                    <span class="tag">{tag}</span>
+                  ))}
                 </span>
-                <span class="project-short-desc">{project.shortDescription}</span>
-                <span class="project-stars">{project.stars}</span>
+                <a
+                  href={project.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="project-github-link"
+                  onclick="event.stopPropagation();"
+                  title="View on GitHub"
+                >
+                  <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
+                    <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+                  </svg>
+                </a>
               </div>
 
               <div class="project-expanded" aria-hidden={index === 0 ? "false" : "true"}>
-                <div class="project-details">
-                  <div class="project-meta">
-                    <span style={`color: ${project.languageColor}`}>{project.language}</span>
-                    <span class="text-muted">·</span>
-                    <span class="text-yellow">★ {project.stars}</span>
+                <div class="expanded-content">
+                  <div class="expanded-main">
+                    <p class="project-description">{project.description}</p>
                   </div>
-                  <p class="project-description">{project.description}</p>
-                  <div class="project-actions">
-                    <a
-                      href={project.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="project-btn"
-                    >
-                      [GitHub]
-                    </a>
-                    {project.demo && (
-                      <a
-                        href={project.demo}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="project-btn"
-                      >
-                        [Demo]
-                      </a>
-                    )}
-                    {project.docs && (
-                      <a
-                        href={project.docs}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="project-btn"
-                      >
-                        [Docs]
-                      </a>
-                    )}
+                  <div class="expanded-sidebar">
+                    <div class="sidebar-section">
+                      <span class="sidebar-label">links</span>
+                      <div class="sidebar-links">
+                        <a
+                          href={project.github}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class="action-link"
+                        >
+                          <span class="action-key">[g]</span> GitHub
+                        </a>
+                        {project.demo && (
+                          <a
+                            href={project.demo}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="action-link demo"
+                          >
+                            <span class="action-key">[d]</span> Demo
+                          </a>
+                        )}
+                        {project.docs && (
+                          <a
+                            href={project.docs}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="action-link docs"
+                          >
+                            <span class="action-key">[r]</span> Docs
+                          </a>
+                        )}
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -147,33 +155,6 @@ import { AUTHOR, SOCIAL } from '../consts';
     margin: var(--es-space-4) 0;
   }
 
-  .divider-thin {
-    border: none;
-    height: 1px;
-    background: var(--es-border-dim);
-    margin: var(--es-space-2) 0;
-  }
-
-  /* Projects Table */
-  .projects-header {
-    display: grid;
-    grid-template-columns: 2ch minmax(120px, 1fr) minmax(50px, 80px) 2fr minmax(30px, 50px);
-    gap: var(--es-space-3);
-    color: var(--es-grey);
-    font-size: var(--es-text-xs);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    padding: var(--es-space-2) 0;
-  }
-
-  .projects-header .col-name {
-    grid-column: 2;
-  }
-
-  .projects-header .col-stars {
-    text-align: right;
-  }
-
   .projects-list {
     list-style: none;
     padding: 0;
@@ -183,150 +164,236 @@ import { AUTHOR, SOCIAL } from '../consts';
   /* Project Row */
   .project-row {
     cursor: pointer;
-    border-radius: 2px;
-    transition: background-color var(--es-duration-fast) var(--es-easing);
+    transition: all var(--es-duration-fast) var(--es-easing);
+    border-left: 3px solid transparent;
+    margin-bottom: 1px;
   }
 
   .project-row:hover,
   .project-row:focus {
-    background-color: var(--es-bg3);
+    background-color: var(--es-bg2);
+    border-left-color: var(--es-grey);
     outline: none;
   }
 
   .project-row[aria-expanded='true'] {
-    background-color: var(--es-bg2);
+    background-color: var(--es-bg0);
+    border-left-color: var(--es-green);
+    margin-bottom: var(--es-space-2);
   }
 
   .project-summary {
-    display: grid;
-    grid-template-columns: 2ch minmax(120px, 1fr) minmax(50px, 80px) 2fr minmax(30px, 50px);
-    gap: var(--es-space-3);
-    padding: var(--es-space-2) 0;
+    display: flex;
     align-items: center;
+    gap: var(--es-space-3);
+    padding: var(--es-space-2) var(--es-space-3);
   }
 
   .project-indicator {
     color: var(--es-green);
-    opacity: 0;
-    transition: opacity var(--es-duration-fast) var(--es-easing);
-    font-family: var(--es-font-mono);
-  }
-
-  .project-row:hover .project-indicator,
-  .project-row:focus .project-indicator,
-  .project-row[aria-expanded='true'] .project-indicator {
-    opacity: 1;
+    font-size: var(--es-text-base);
+    transition: transform var(--es-duration-fast) var(--es-easing);
+    flex-shrink: 0;
+    width: 1.5ch;
   }
 
   .project-row[aria-expanded='true'] .project-indicator {
     transform: rotate(90deg);
   }
 
-  .project-name {
-    color: var(--es-fg);
-    font-weight: var(--es-font-medium);
+  .project-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 200px;
   }
 
-  .project-lang {
-    font-size: var(--es-text-sm);
+  .project-name {
+    color: var(--es-fg);
+    font-weight: bold;
+    font-size: var(--es-text-base);
+  }
+
+  .project-row[aria-expanded='true'] .project-name {
+    color: var(--es-green);
   }
 
   .project-short-desc {
     color: var(--es-grey);
-    font-size: var(--es-text-sm);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    font-size: var(--es-text-xs);
   }
 
-  .project-stars {
-    color: var(--es-yellow);
-    text-align: right;
-    font-size: var(--es-text-sm);
+  .project-tags {
+    display: flex;
+    gap: var(--es-space-2);
+    margin-left: auto;
+  }
+
+  .tag {
+    font-size: var(--es-text-xs);
+    color: var(--es-blue);
+    background: transparent;
+    border: 1px solid var(--es-blue);
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-family: var(--es-font-mono);
+    opacity: 0.7;
+    transition: opacity var(--es-duration-fast);
+  }
+
+  .project-row:hover .tag,
+  .project-row[aria-expanded='true'] .tag {
+    opacity: 1;
+  }
+
+  .project-github-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--es-grey);
+    padding: var(--es-space-1);
+    margin-left: var(--es-space-2);
+    border-radius: 4px;
+    transition: color var(--es-duration-fast), background-color var(--es-duration-fast);
+    flex-shrink: 0;
+  }
+
+  .project-github-link:hover {
+    color: var(--es-fg);
+    background-color: var(--es-bg2);
+  }
+
+  .project-row[aria-expanded='true'] .project-github-link {
+    display: none;
   }
 
   /* Expanded View */
   .project-expanded {
     display: none;
-    padding: var(--es-space-2) 0 var(--es-space-4) 2ch;
-    border-bottom: 1px solid var(--es-border-dim);
+    padding: var(--es-space-3) var(--es-space-3) var(--es-space-4);
+    padding-left: calc(var(--es-space-3) + 1.5ch + var(--es-space-3));
+    border-top: 1px solid var(--es-border-dim);
   }
 
   .project-row[aria-expanded='true'] .project-expanded {
     display: block;
   }
 
-  .project-details {
-    padding-left: var(--es-space-4);
-    border-left: 2px solid var(--es-border);
+  .expanded-content {
+    display: grid;
+    grid-template-columns: 1fr 180px;
+    gap: var(--es-space-6);
   }
 
-  .project-meta {
-    font-size: var(--es-text-sm);
-    margin-bottom: var(--es-space-3);
-    display: flex;
-    gap: var(--es-space-2);
+  .expanded-main {
+    min-width: 0;
   }
 
   .project-description {
-    color: var(--es-grey);
+    color: var(--es-fg);
     font-size: var(--es-text-sm);
-    line-height: var(--es-leading-relaxed);
-    margin-bottom: var(--es-space-4);
-    max-width: 60ch;
+    line-height: 1.7;
+    margin: 0;
   }
 
-  .project-actions {
+  /* Sidebar */
+  .expanded-sidebar {
     display: flex;
-    gap: var(--es-space-3);
+    flex-direction: column;
+    gap: var(--es-space-4);
+    border-left: 1px solid var(--es-border-dim);
+    padding-left: var(--es-space-4);
   }
 
-  .project-btn {
-    color: var(--es-blue);
+  .sidebar-section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--es-space-2);
+  }
+
+  .sidebar-label {
+    font-size: var(--es-text-xs);
+    color: var(--es-grey-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .sidebar-links {
+    display: flex;
+    flex-direction: column;
+    gap: var(--es-space-1);
+  }
+
+  .action-link {
+    display: flex;
+    align-items: center;
+    gap: var(--es-space-2);
     font-size: var(--es-text-sm);
+    color: var(--es-fg);
     text-decoration: none;
-    transition: color var(--es-duration-fast) var(--es-easing);
+    padding: var(--es-space-1) 0;
+    transition: all var(--es-duration-fast);
   }
 
-  .project-btn:hover {
+  .action-link:hover {
     color: var(--es-green);
   }
 
+  .action-key {
+    font-family: var(--es-font-mono);
+    font-size: var(--es-text-xs);
+    color: var(--es-grey);
+    min-width: 2.5ch;
+  }
+
+  .action-link:hover .action-key {
+    color: var(--es-green);
+  }
+
+  .action-link.demo {
+    color: var(--es-green);
+  }
+
+  .action-link.docs {
+    color: var(--es-blue);
+  }
+
   /* Mobile Responsive */
-  @media (max-width: 640px) {
-    .projects-header {
-      display: none;
-    }
-
+  @media (max-width: 768px) {
     .project-summary {
-      grid-template-columns: 2ch 1fr auto;
-      grid-template-rows: auto auto;
+      flex-wrap: wrap;
     }
 
-    .project-name {
-      grid-column: 2;
+    .project-info {
+      min-width: auto;
+      flex: 1;
     }
 
-    .project-lang {
-      grid-column: 3;
+    .project-tags {
+      width: 100%;
+      margin-left: 0;
+      margin-top: var(--es-space-2);
+      padding-left: calc(1.5ch + var(--es-space-3));
     }
 
-    .project-short-desc {
-      grid-column: 2 / -1;
-      grid-row: 2;
-      font-size: var(--es-text-xs);
+    .expanded-content {
+      grid-template-columns: 1fr;
+      gap: var(--es-space-4);
     }
 
-    .project-stars {
-      display: none;
-    }
-
-    .project-expanded {
+    .expanded-sidebar {
+      flex-direction: row;
+      border-left: none;
+      border-top: 1px solid var(--es-border-dim);
       padding-left: 0;
+      padding-top: var(--es-space-3);
+      gap: var(--es-space-6);
     }
 
-    .project-details {
-      padding-left: var(--es-space-3);
+    .sidebar-links {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: var(--es-space-3);
     }
   }
 </style>
@@ -389,10 +456,10 @@ import { AUTHOR, SOCIAL } from '../consts';
   // Import projects data for keyboard shortcut
   const projects = [
     { name: 'coppermind', github: 'https://github.com/emersonmde/coppermind' },
-    { name: 'reprisedb', github: 'https://github.com/emersonmde/reprisedb' },
+    { name: 'anchor-chain', github: 'https://github.com/emersonmde/anchor-chain' },
+    { name: 'daedalus', github: 'https://github.com/emersonmde/daedalus' },
     { name: 'railyard', github: 'https://github.com/emersonmde/railyard' },
     { name: 'nenya', github: 'https://github.com/emersonmde/nenya' },
-    { name: 'touchstone', github: 'https://github.com/emersonmde/touchstone' },
-    { name: 'chip8-emulator', github: 'https://github.com/emersonmde/chip8-emulator' },
+    { name: 'atium', github: 'https://github.com/emersonmde/atium' },
   ];
 </script>
