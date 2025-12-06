@@ -114,29 +114,25 @@ const posts = (await getCollection('blog')).sort(
 </style>
 
 <script>
-  // Keyboard navigation for blog list (only active in vim mode)
-  document.addEventListener('keydown', (e) => {
-    // Only handle navigation keys when in vim mode
-    if (!(window as any).vimMode) {
-      return;
-    }
+  interface VimWindow extends Window { vimMode: boolean; }
+  declare const window: VimWindow;
 
-    const items = Array.from(document.querySelectorAll('.post-item'));
+  document.addEventListener('keydown', (e) => {
+    if (!window.vimMode) return;
+
+    const items = Array.from(document.querySelectorAll('.post-item')) as HTMLElement[];
     const focusedIndex = items.findIndex((item) => item.contains(document.activeElement) || item === document.activeElement);
 
     if (e.key === 'j' || e.key === 'ArrowDown') {
       e.preventDefault();
       const nextIndex = focusedIndex < items.length - 1 ? focusedIndex + 1 : 0;
-      (items[nextIndex] as HTMLElement).focus();
+      items[nextIndex].focus();
     } else if (e.key === 'k' || e.key === 'ArrowUp') {
       e.preventDefault();
       const prevIndex = focusedIndex > 0 ? focusedIndex - 1 : items.length - 1;
-      (items[prevIndex] as HTMLElement).focus();
+      items[prevIndex].focus();
     } else if (e.key === 'Enter' && focusedIndex >= 0) {
-      const link = items[focusedIndex].querySelector('a');
-      if (link) {
-        link.click();
-      }
+      items[focusedIndex].querySelector('a')?.click();
     }
   });
 </script>

@@ -3,7 +3,11 @@ import react from '@astrojs/react';
 
 export default defineConfig({
   site: 'https://errorsignal.dev',
-  integrations: [react()],
+  integrations: [
+    react({
+      include: ['**/components/*.tsx'],
+    }),
+  ],
   markdown: {
     shikiConfig: {
       theme: 'github-dark',

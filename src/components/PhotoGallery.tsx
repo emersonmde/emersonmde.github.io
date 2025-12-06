@@ -1,6 +1,13 @@
 import { useState, useEffect, useCallback } from 'react';
 import Lightbox from './Lightbox';
 
+interface ApiPhoto {
+  src: string;
+  src_set: string[];
+  width: number;
+  height: number;
+}
+
 interface Photo {
   id: string;
   src: string;
@@ -26,8 +33,15 @@ export default function PhotoGallery({
       try {
         const response = await fetch(apiUrl);
         if (!response.ok) throw new Error('Failed to fetch photos');
-        const data = await response.json();
-        setPhotos(data);
+        const data: ApiPhoto[] = await response.json();
+        const transformed: Photo[] = data.map((photo, index) => ({
+          id: photo.src.split('/').slice(-2, -1)[0] || `photo-${index}`,
+          src: photo.src,
+          srcSet: photo.src_set.join(', '),
+          width: photo.width,
+          height: photo.height,
+        }));
+        setPhotos(transformed);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to load photos');
       } finally {

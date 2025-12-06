@@ -12,7 +12,6 @@ import { AUTHOR, SOCIAL } from '../consts';
   activeTab="projects"
 >
   <div class="projects-page">
-      <!-- Bio Section -->
       <section class="bio-section">
         <h1 class="bio-name">{AUTHOR.name}</h1>
         <p class="bio-title">{AUTHOR.summary}</p>
@@ -29,13 +28,13 @@ import { AUTHOR, SOCIAL } from '../consts';
 
       <hr class="divider" />
 
-      <!-- Projects List -->
       <section class="projects-section">
-        <ul class="projects-list" role="list">
+        <ul class="projects-list" role="list" id="projects-list">
           {projects.map((project, index) => (
             <li
               class="project-row"
               data-project={project.name}
+              data-index={index}
               tabindex="0"
               role="button"
               aria-expanded={index === 0 ? "true" : "false"}
@@ -110,6 +109,10 @@ import { AUTHOR, SOCIAL } from '../consts';
             </li>
           ))}
         </ul>
+
+        <button class="show-more-btn" id="show-more-btn" aria-hidden="true">
+          show <span id="hidden-count">0</span> more
+        </button>
       </section>
   </div>
 </BaseLayout>
@@ -358,6 +361,44 @@ import { AUTHOR, SOCIAL } from '../consts';
     color: var(--es-blue);
   }
 
+  /* Show more button */
+  .show-more-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--es-space-2);
+    width: 100%;
+    padding: var(--es-space-2) var(--es-space-3);
+    background: transparent;
+    border: 1px dashed var(--es-border);
+    color: var(--es-grey);
+    font-family: var(--es-font-mono);
+    font-size: var(--es-text-sm);
+    cursor: pointer;
+    transition: all var(--es-duration-fast);
+    margin-top: var(--es-space-1);
+  }
+
+  .show-more-btn:hover {
+    border-color: var(--es-green);
+    color: var(--es-green);
+    background: var(--es-bg2);
+  }
+
+  .show-more-btn[aria-hidden="true"] {
+    display: none;
+  }
+
+
+  /* Hidden project rows */
+  .project-row.hidden-overflow {
+    display: none;
+  }
+
+  .projects-list.show-all .project-row.hidden-overflow {
+    display: block;
+  }
+
   /* Mobile Responsive */
   @media (max-width: 768px) {
     .project-summary {
@@ -399,18 +440,85 @@ import { AUTHOR, SOCIAL } from '../consts';
 </style>
 
 <script>
-  // Handle project row expansion
+  interface VimWindow extends Window { vimMode: boolean; }
+  declare const window: VimWindow;
+
+  function calculateVisibleProjects() {
+    const projectsList = document.getElementById('projects-list');
+    const showMoreBtn = document.getElementById('show-more-btn');
+    const hiddenCountSpan = document.getElementById('hidden-count');
+    const rows = Array.from(document.querySelectorAll('.project-row')) as HTMLElement[];
+
+    if (!projectsList || !showMoreBtn || !hiddenCountSpan || rows.length === 0) return;
+    if (projectsList.classList.contains('show-all')) return;
+
+    const viewportHeight = window.innerHeight;
+    const bioSection = document.querySelector('.bio-section') as HTMLElement;
+    const divider = document.querySelector('.divider') as HTMLElement;
+    const statusBar = document.querySelector('.tmux-bar') as HTMLElement;
+    const promptLine = document.getElementById('prompt-line');
+
+    const bioHeight = bioSection?.offsetHeight || 0;
+    const dividerHeight = divider?.offsetHeight || 0;
+    const statusBarHeight = statusBar?.offsetHeight || 28;
+    const promptHeight = promptLine?.offsetHeight || 40;
+    const padding = 120;
+
+    const fixedHeight = bioHeight + dividerHeight + statusBarHeight + promptHeight + padding;
+    const availableHeight = viewportHeight - fixedHeight;
+
+    const firstRow = rows[0];
+    const wasExpanded = firstRow.getAttribute('aria-expanded') === 'true';
+    if (wasExpanded) firstRow.setAttribute('aria-expanded', 'false');
+    const rowHeight = firstRow.offsetHeight + 1;
+    if (wasExpanded) firstRow.setAttribute('aria-expanded', 'true');
+
+    const expandedExtraHeight = wasExpanded ? 120 : 0;
+    const maxVisibleRows = Math.floor((availableHeight - expandedExtraHeight) / rowHeight);
+    const visibleCount = Math.max(2, Math.min(maxVisibleRows, rows.length));
+
+    rows.forEach(row => row.classList.remove('hidden-overflow'));
+
+    const hiddenCount = rows.length - visibleCount;
+    if (hiddenCount > 0) {
+      rows.slice(visibleCount).forEach(row => row.classList.add('hidden-overflow'));
+      hiddenCountSpan.textContent = String(hiddenCount);
+      showMoreBtn.setAttribute('aria-hidden', 'false');
+    } else {
+      showMoreBtn.setAttribute('aria-hidden', 'true');
+    }
+  }
+
+  const showMoreBtn = document.getElementById('show-more-btn');
+  const projectsList = document.getElementById('projects-list');
+
+  showMoreBtn?.addEventListener('click', () => {
+    projectsList?.classList.add('show-all');
+    showMoreBtn.setAttribute('aria-hidden', 'true');
+    setTimeout(() => {
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }, 50);
+  });
+
+  calculateVisibleProjects();
+
+  let resizeTimeout: number;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = window.setTimeout(() => {
+      if (!projectsList?.classList.contains('show-all')) calculateVisibleProjects();
+    }, 150);
+  });
+
   document.querySelectorAll('.project-row').forEach((row) => {
     row.addEventListener('click', () => {
       const isExpanded = row.getAttribute('aria-expanded') === 'true';
 
-      // Collapse all other rows
       document.querySelectorAll('.project-row').forEach((r) => {
         r.setAttribute('aria-expanded', 'false');
         r.querySelector('.project-expanded')?.setAttribute('aria-hidden', 'true');
       });
 
-      // Toggle this row
       if (!isExpanded) {
         row.setAttribute('aria-expanded', 'true');
         row.querySelector('.project-expanded')?.setAttribute('aria-hidden', 'false');
@@ -425,35 +533,28 @@ import { AUTHOR, SOCIAL } from '../consts';
     });
   });
 
-  // Keyboard navigation (only active in vim mode)
   document.addEventListener('keydown', (e) => {
-    // Only handle navigation keys when in vim mode
-    if (!(window as any).vimMode) {
-      return;
-    }
+    if (!window.vimMode) return;
 
-    const rows = Array.from(document.querySelectorAll('.project-row'));
+    const rows = Array.from(document.querySelectorAll('.project-row')) as HTMLElement[];
     const focusedIndex = rows.findIndex((r) => r === document.activeElement);
 
     if (e.key === 'j' || e.key === 'ArrowDown') {
       e.preventDefault();
       const nextIndex = focusedIndex < rows.length - 1 ? focusedIndex + 1 : 0;
-      (rows[nextIndex] as HTMLElement).focus();
+      rows[nextIndex].focus();
     } else if (e.key === 'k' || e.key === 'ArrowUp') {
       e.preventDefault();
       const prevIndex = focusedIndex > 0 ? focusedIndex - 1 : rows.length - 1;
-      (rows[prevIndex] as HTMLElement).focus();
+      rows[prevIndex].focus();
     } else if (e.key === 'g' && document.activeElement?.classList.contains('project-row')) {
       e.preventDefault();
       const projectName = document.activeElement.getAttribute('data-project');
       const project = projects.find((p) => p.name === projectName);
-      if (project?.github) {
-        window.open(project.github, '_blank');
-      }
+      if (project?.github) window.open(project.github, '_blank');
     }
   });
 
-  // Import projects data for keyboard shortcut
   const projects = [
     { name: 'coppermind', github: 'https://github.com/emersonmde/coppermind' },
     { name: 'anchor-chain', github: 'https://github.com/emersonmde/anchor-chain' },
@@ -461,5 +562,10 @@ import { AUTHOR, SOCIAL } from '../consts';
     { name: 'railyard', github: 'https://github.com/emersonmde/railyard' },
     { name: 'nenya', github: 'https://github.com/emersonmde/nenya' },
     { name: 'atium', github: 'https://github.com/emersonmde/atium' },
+    { name: 'reprisedb', github: 'https://github.com/emersonmde/reprisedb' },
+    { name: 'bloombox', github: 'https://github.com/emersonmde/bloombox' },
+    { name: 'double_barrel', github: 'https://github.com/emersonmde/double_barrel' },
+    { name: 'palantir', github: 'https://github.com/emersonmde/palantir' },
+    { name: 'chip8-emulator', github: 'https://github.com/emersonmde/chip8-emulator' },
   ];
 </script>

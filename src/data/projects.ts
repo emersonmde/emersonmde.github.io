@@ -77,4 +77,54 @@ export const projects: Project[] = [
     github: 'https://github.com/emersonmde/atium',
     demo: 'https://emersonmde.github.io/atium/atium/index.html',
   },
+  {
+    name: 'reprisedb',
+    language: 'rust',
+    languageColor: 'var(--es-orange)',
+    shortDescription: 'LSM Tree key-value store',
+    description:
+      'Disk-persistent key-value store using Log-Structured Merge Trees. MemTable (B-Tree) buffers writes before flushing to SSTables. Implements compaction with last-write-wins conflict resolution. Protocol Buffers for on-disk encoding.',
+    tags: ['storage', 'lsm-tree', 'database'],
+    github: 'https://github.com/emersonmde/reprisedb',
+  },
+  {
+    name: 'bloombox',
+    language: 'rust',
+    languageColor: 'var(--es-orange)',
+    shortDescription: 'Serializable bloom filter',
+    description:
+      'Space-efficient probabilistic set membership using XXHash. Configurable false positive rates with automatic optimal sizing. Serialization support for persistence and network transfer.',
+    tags: ['data-structure', 'probabilistic', 'crate'],
+    github: 'https://github.com/emersonmde/bloombox',
+  },
+  {
+    name: 'double_barrel',
+    language: 'rust',
+    languageColor: 'var(--es-orange)',
+    shortDescription: '6502 CPU emulator',
+    description:
+      'Cycle-accurate emulation of the MOS 6502 processor. Implements the full instruction set with proper addressing modes. Foundation for retro computing projects (NES, Apple II, C64).',
+    tags: ['emulator', '6502', 'retro'],
+    github: 'https://github.com/emersonmde/double_barrel',
+  },
+  {
+    name: 'palantir',
+    language: 'c',
+    languageColor: 'var(--es-blue)',
+    shortDescription: 'DNS resolver with caching',
+    description:
+      'RFC 1035 compliant DNS resolver implementing query parsing, response construction, and answer caching. Low-level socket programming with custom packet serialization. Built to understand DNS internals.',
+    tags: ['networking', 'dns', 'rfc'],
+    github: 'https://github.com/emersonmde/palantir',
+  },
+  {
+    name: 'chip8-emulator',
+    language: 'c',
+    languageColor: 'var(--es-blue)',
+    shortDescription: 'CHIP-8 virtual machine',
+    description:
+      'Emulator for the CHIP-8 interpreted language. SDL2 graphics rendering, opcode decoding, and memory-mapped I/O. Classic first step into emulation development.',
+    tags: ['emulator', 'sdl2', 'graphics'],
+    github: 'https://github.com/emersonmde/chip8-emulator',
+  },
 ];

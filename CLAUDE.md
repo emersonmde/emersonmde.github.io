@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is **Error Signal** (errorsignal.dev), a personal blog built with Astro. Blog posts are written in Markdown and processed through Astro's content collections.
+This is **Error Signal** (errorsignal.dev), a TUI-style portfolio site built with Astro. The design mimics a terminal interface with Sonokai color scheme, vim-style navigation, and an interactive command prompt.
 
 ## Common Commands
 
@@ -16,38 +16,74 @@ npm run preview   # Preview production build locally
 
 ## Architecture
 
-### Content Pipeline
-- Blog posts live in `src/content/blog/<post-name>/index.md`
-- Each post folder can contain images referenced in the markdown
-- Frontmatter: `title`, `date`, `description`
-- Content collection schema defined in `src/content.config.ts`
-- Posts rendered via `src/pages/blog/[...slug].astro`
+### Pages
+- `/` - Projects page (home) - expandable project list with GitHub links
+- `/photos` - Photo gallery with masonry layout
+- `/blog` - Blog index and posts
+- `/about` - About page
 
-### Key Files
-- `astro.config.mjs` - Astro configuration, site URL, markdown settings
+### Key Components
+- `src/components/TuiShell.astro` - Main terminal shell with command input, vim mode toggle, command execution
+- `src/components/TmuxStatusBar.astro` - Bottom status bar (tmux-style) with tabs, path, mode indicator
+- `src/layouts/BaseLayout.astro` - Base layout wrapping TuiShell
+
+### Data
+- `src/data/projects.ts` - Static project data (name, description, tags, links)
 - `src/consts.ts` - Site metadata, author info, social links
-- `src/content.config.ts` - Content collection schema definitions
-- `src/layouts/BaseLayout.astro` - Main layout with SEO
-- `src/pages/index.astro` - Blog index page
-- `src/pages/blog/[...slug].astro` - Individual post template
-- `src/components/Bio.astro` - Author bio component
 
-### Deployment
-- GitHub Actions workflow (`.github/workflows/deploy.yml`) deploys to `gh-pages` branch on push to `main`
-- Build output goes to `dist/` directory
+### Content
+- Blog posts: `src/content/blog/<post-name>/index.md`
+- Content collection schema: `src/content.config.ts`
 
-## Adding a New Blog Post
+### Styles
+- `src/styles/global.css` - Sonokai color palette, CSS variables, base styles
 
-Create a new folder in `src/content/blog/` with an `index.md` file:
+## TUI Features
 
+### Command System
+Commands are entered in the prompt at the bottom. Supported:
+- `ls` - List directories/files
+- `cd <path>` - Navigate (projects, photos, blog, about)
+- `cat <file>` - View file
+- `open <project>` - Open project on GitHub
+- `help` - Show commands
+- `clear` - Clear output
+
+### Vim Mode
+- Default: INSERT mode (typing goes to prompt)
+- `Escape` - Toggle to NORMAL mode (j/k navigation)
+- `i`, `:`, `/` - Return to INSERT mode
+- Mode shown in status bar
+
+## Adding Content
+
+### New Blog Post
+Create `src/content/blog/<post-name>/index.md`:
 ```markdown
 ---
 title: "Post Title"
 date: "YYYY-MM-DD"
-description: "Brief description for previews and SEO"
+description: "Brief description"
 ---
-
-Content here...
+Content...
 ```
 
-Code blocks use Shiki for syntax highlighting (github-dark theme).
+### New Project
+Add to `src/data/projects.ts`:
+```typescript
+{
+  name: 'project-name',
+  language: 'rust',
+  languageColor: 'var(--es-orange)',
+  shortDescription: 'One-liner',
+  description: 'Full description...',
+  tags: ['tag1', 'tag2'],
+  github: 'https://github.com/emersonmde/project-name',
+  demo?: 'https://...',
+  docs?: 'https://...',
+}
+```
+
+## Deployment
+
+GitHub Actions (`.github/workflows/deploy.yml`) deploys to `gh-pages` on push to `main`.

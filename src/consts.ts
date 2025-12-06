@@ -4,7 +4,7 @@ export const SITE_URL = 'https://errorsignal.dev';
 
 export const AUTHOR = {
   name: 'Matthew Emerson',
-  summary: 'Software Engineer',
+  summary: 'Software Development Manager',
 };
 
 export const SOCIAL = {

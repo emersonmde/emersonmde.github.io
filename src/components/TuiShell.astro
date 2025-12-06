@@ -14,15 +14,12 @@ const { currentPath = '/', virtualPath = '~', statusHints = '', activeTab = 'pro
 <div class="terminal">
   <div class="terminal-window">
     <div class="terminal-content" id="terminal-content">
-      <!-- Main page content -->
       <div id="main-content">
         <slot />
       </div>
 
-      <!-- Terminal output area - command results appear here (below main content) -->
       <div id="terminal-output"></div>
 
-      <!-- Command prompt at bottom of content -->
       <div class="prompt-line" id="prompt-line">
         <span class="prompt-symbol">❯</span>
         <div class="prompt-input-wrapper">
@@ -46,25 +43,44 @@ const { currentPath = '/', virtualPath = '~', statusHints = '', activeTab = 'pro
 </div>
 
 <script>
-  const input = document.getElementById('command-input') as HTMLInputElement;
-  const terminalOutput = document.getElementById('terminal-output') as HTMLDivElement;
-  const terminalContent = document.getElementById('terminal-content') as HTMLDivElement;
-  const mainContent = document.getElementById('main-content') as HTMLDivElement;
-  const hintsElement = document.querySelector('.tmux-hints') as HTMLSpanElement;
+  interface VimWindow extends Window {
+    vimMode: boolean;
+  }
+  declare const window: VimWindow;
 
-  // Command history
+  function getInput() {
+    return document.getElementById('command-input') as HTMLInputElement | null;
+  }
+
+  function getTerminalOutput() {
+    return document.getElementById('terminal-output') as HTMLDivElement | null;
+  }
+
+  function getTerminalContent() {
+    return document.getElementById('terminal-content') as HTMLDivElement | null;
+  }
+
+  function getPromptSymbol() {
+    return document.querySelector('.prompt-symbol') as HTMLElement | null;
+  }
+
+  function getHintsElement() {
+    return document.querySelector('.tmux-hints') as HTMLSpanElement | null;
+  }
+
   let commandHistory: string[] = [];
   let historyIndex = -1;
 
-  // Track if we're in "vim mode" for navigation (default: false, typing goes to input)
-  // Expose globally so page scripts can check it
-  (window as any).vimMode = false;
-
-  // Visual indicator for vim mode
-  const promptSymbol = document.querySelector('.prompt-symbol') as HTMLElement;
+  if (window.vimMode === undefined) {
+    window.vimMode = false;
+  }
 
   function setVimMode(enabled: boolean) {
-    (window as any).vimMode = enabled;
+    window.vimMode = enabled;
+    const input = getInput();
+    const promptSymbol = getPromptSymbol();
+    const hintsElement = getHintsElement();
+
     if (enabled) {
       input?.blur();
       promptSymbol?.classList.add('vim-mode');
@@ -81,63 +97,86 @@ const { currentPath = '/', virtualPath = '~', statusHints = '', activeTab = 'pro
     }
   }
 
-  // Scroll terminal to bottom - scroll the prompt into view
   function scrollToBottom() {
-    // Try multiple scroll methods to ensure it works
     const promptLine = document.getElementById('prompt-line');
+    const terminalContent = getTerminalContent();
     if (promptLine) {
       promptLine.scrollIntoView({ behavior: 'smooth', block: 'end' });
     }
-    // Also scroll the terminal content container
-    terminalContent.scrollTop = terminalContent.scrollHeight;
-    // And window scroll as fallback
+    if (terminalContent) {
+      terminalContent.scrollTop = terminalContent.scrollHeight;
+    }
     window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
   }
 
-  // Focus input by default on page load
-  setTimeout(() => input?.focus(), 100);
-
-  // Helper to check vim mode
   function isVimMode() {
-    return (window as any).vimMode === true;
+    return window.vimMode === true;
   }
 
-  // Capture keypresses globally
+  function setupInputListeners() {
+    const input = getInput();
+    if (!input) return;
+
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        const command = input.value.trim();
+        if (command) {
+          executeCommand(command);
+          commandHistory.unshift(command);
+          historyIndex = -1;
+        }
+        input.value = '';
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (historyIndex < commandHistory.length - 1) {
+          historyIndex++;
+          input.value = commandHistory[historyIndex] || '';
+        }
+      } else if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        if (historyIndex > 0) {
+          historyIndex--;
+          input.value = commandHistory[historyIndex] || '';
+        } else if (historyIndex === 0) {
+          historyIndex = -1;
+          input.value = '';
+        }
+      }
+    });
+
+    input.addEventListener('focus', () => {
+      scrollToBottom();
+    });
+  }
+
   document.addEventListener('keydown', (e) => {
     const target = e.target as HTMLElement;
+    const input = getInput();
 
-    // If focused on another input/textarea (not our command input), let it handle normally
     if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA') {
-      if (target !== input) {
-        return;
-      }
+      if (target !== input) return;
     }
 
-    // Escape toggles vim mode
     if (e.key === 'Escape') {
       e.preventDefault();
       if (isVimMode()) {
-        // Exit vim mode, focus input
         setVimMode(false);
         input?.focus();
       } else {
-        // Enter vim mode, blur input
         setVimMode(true);
         if (input) input.value = '';
       }
       return;
     }
 
-    // In vim mode, handle navigation keys
     if (isVimMode()) {
-      // ? shows help
       if (e.key === '?') {
         e.preventDefault();
         showHelp();
         return;
       }
 
-      // i, :, or / exits vim mode and focuses input
       if (e.key === 'i' || e.key === ':' || e.key === '/') {
         e.preventDefault();
         setVimMode(false);
@@ -145,79 +184,37 @@ const { currentPath = '/', virtualPath = '~', statusHints = '', activeTab = 'pro
         return;
       }
 
-      // j/k/g/G are handled by page-specific handlers
-      // Don't prevent default so they bubble up
-      if (['j', 'k', 'g', 'G'].includes(e.key)) {
-        return;
-      }
+      if (['j', 'k', 'g', 'G'].includes(e.key)) return;
 
-      // Other keys in vim mode - ignore (don't let them type)
-      if (e.key.length === 1) {
-        e.preventDefault();
-      }
+      if (e.key.length === 1) e.preventDefault();
       return;
     }
 
-    // Not in vim mode - all typing goes to input
-    // Only intercept if not already focused on input (let browser handle normal typing)
     if (target !== input && e.key.length === 1 && !e.ctrlKey && !e.metaKey && !e.altKey) {
       e.preventDefault();
       input?.focus();
-      if (input) {
-        input.value += e.key;
-      }
+      if (input) input.value += e.key;
     }
   });
 
-  // Handle command input
-  input?.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      const command = input.value.trim();
-      if (command) {
-        executeCommand(command);
-        commandHistory.unshift(command);
-        historyIndex = -1;
-      }
-      input.value = '';
-    } else if (e.key === 'ArrowUp') {
-      e.preventDefault();
-      if (historyIndex < commandHistory.length - 1) {
-        historyIndex++;
-        input.value = commandHistory[historyIndex] || '';
-      }
-    } else if (e.key === 'ArrowDown') {
-      e.preventDefault();
-      if (historyIndex > 0) {
-        historyIndex--;
-        input.value = commandHistory[historyIndex] || '';
-      } else if (historyIndex === 0) {
-        historyIndex = -1;
-        input.value = '';
-      }
-    }
-    // Note: Escape is handled by the global handler above
-  });
+  setupInputListeners();
+  document.addEventListener('astro:after-swap', setupInputListeners);
 
-  // Append output to terminal (like a real terminal)
   function appendOutput(html: string) {
+    const terminalOutput = getTerminalOutput();
+    if (!terminalOutput) return;
     const line = document.createElement('div');
     line.className = 'terminal-line';
     line.innerHTML = html;
     terminalOutput.appendChild(line);
-
-    // Scroll to bottom after a brief delay to ensure DOM is updated
-    requestAnimationFrame(() => {
-      scrollToBottom();
-    });
+    requestAnimationFrame(() => scrollToBottom());
   }
 
-  // Show command that was executed
   function showCommand(cmd: string) {
     appendOutput(`<span class="prompt-echo">❯</span> <span class="command-echo">${escapeHtml(cmd)}</span>`);
   }
 
-  function escapeHtml(text: string): string {
+  function escapeHtml(text: string) {
     const div = document.createElement('div');
     div.textContent = text;
     return div.innerHTML;
@@ -245,10 +242,8 @@ const { currentPath = '/', virtualPath = '~', statusHints = '', activeTab = 'pro
     appendOutput(`<pre class="help-output">${helpText}</pre>`);
   }
 
-  // Get current path from the page
-  function getCurrentPath(): string {
-    const path = document.querySelector('.tmux-path')?.textContent || '~';
-    return path;
+  function getCurrentPath() {
+    return document.querySelector('.tmux-path')?.textContent || '~';
   }
 
   function executeCommand(cmd: string) {
@@ -270,11 +265,7 @@ const { currentPath = '/', virtualPath = '~', statusHints = '', activeTab = 'pro
         } else if (target === 'about' || target === '~/about.md' || target === 'about.md') {
           window.location.href = '/about';
         } else if (target === '..') {
-          // Go up one level
-          const currentPath = getCurrentPath();
-          if (currentPath.includes('/')) {
-            window.location.href = '/';
-          }
+          if (getCurrentPath().includes('/')) window.location.href = '/';
         } else {
           appendOutput(`<span class="error">cd: no such directory: ${escapeHtml(target)}</span>`);
         }
@@ -287,7 +278,7 @@ const { currentPath = '/', virtualPath = '~', statusHints = '', activeTab = 'pro
         if (lsTarget === '~' || lsTarget === '/' || lsTarget === '.' || !args[0]) {
           listing = `<span class="dir">projects/</span>  <span class="dir">photos/</span>  <span class="dir">blog/</span>  <span class="file">about.md</span>`;
         } else if (lsTarget === 'projects' || lsTarget === '~/projects') {
-          listing = `<span class="file">coppermind</span>  <span class="file">anchor-chain</span>  <span class="file">daedalus</span>  <span class="file">railyard</span>  <span class="file">nenya</span>  <span class="file">atium</span>`;
+          listing = `<span class="file">coppermind</span>  <span class="file">anchor-chain</span>  <span class="file">daedalus</span>  <span class="file">railyard</span>  <span class="file">nenya</span>  <span class="file">atium</span>  <span class="file">reprisedb</span>  <span class="file">bloombox</span>  <span class="file">double_barrel</span>  <span class="file">palantir</span>  <span class="file">chip8-emulator</span>`;
         } else if (lsTarget === 'blog' || lsTarget === '~/blog') {
           listing = `<span class="file">anchor-chain.md</span>  <span class="file">brave-neo-world.md</span>  <span class="file">dotfiles-on-demand.md</span>`;
         } else {
@@ -319,7 +310,7 @@ const { currentPath = '/', virtualPath = '~', statusHints = '', activeTab = 'pro
       case 'open':
         const item = args[0];
         if (item) {
-          const projects = ['coppermind', 'anchor-chain', 'daedalus', 'railyard', 'nenya', 'atium'];
+          const projects = ['coppermind', 'anchor-chain', 'daedalus', 'railyard', 'nenya', 'atium', 'reprisedb', 'bloombox', 'double_barrel', 'palantir', 'chip8-emulator'];
           if (projects.includes(item)) {
             appendOutput(`Opening <span class="link">github.com/emersonmde/${item}</span>...`);
             window.open(`https://github.com/emersonmde/${item}`, '_blank');
@@ -332,7 +323,8 @@ const { currentPath = '/', virtualPath = '~', statusHints = '', activeTab = 'pro
         break;
 
       case 'clear':
-        terminalOutput.innerHTML = '';
+        const output = getTerminalOutput();
+        if (output) output.innerHTML = '';
         break;
 
       case 'whoami':
@@ -418,7 +410,6 @@ const { currentPath = '/', virtualPath = '~', statusHints = '', activeTab = 'pro
     transition: color 0.15s ease;
   }
 
-  /* Vim mode indicator - prompt turns blue */
   .prompt-symbol.vim-mode {
     color: var(--es-blue);
   }
@@ -451,7 +442,6 @@ const { currentPath = '/', virtualPath = '~', statusHints = '', activeTab = 'pro
     animation: blink 1s step-end infinite;
   }
 
-  /* Hide blinking cursor when input is focused (use native caret instead) */
   .prompt-input:focus ~ .prompt-cursor {
     display: none;
   }
@@ -461,7 +451,6 @@ const { currentPath = '/', virtualPath = '~', statusHints = '', activeTab = 'pro
     51%, 100% { opacity: 0; }
   }
 
-  /* Terminal output area */
   #terminal-output {
     display: flex;
     flex-direction: column;
