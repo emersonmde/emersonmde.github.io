@@ -5,7 +5,7 @@ interface Props {
   hints?: string;
 }
 
-const { activeTab = 'projects', path = '~', hints = '' } = Astro.props;
+const { activeTab = 'projects', path = '~', hints = 'INSERT' } = Astro.props;
 
 const tabs = [
   { id: 'projects', label: 'projects', href: '/' },
@@ -29,7 +29,7 @@ const tabs = [
     </nav>
   </div>
   <div class="tmux-right">
-    {hints && <span class="tmux-hints">{hints}</span>}
+    <span class="tmux-hints" id="tmux-hints">{hints}</span>
     <span class="tmux-path">{path}</span>
     <span class="tmux-time" id="tmux-time"></span>
   </div>
@@ -45,16 +45,20 @@ const tabs = [
         minute: '2-digit',
         hour12: false
       });
-      const date = now.toLocaleDateString('en-US', {
-        month: 'short',
-        day: '2-digit'
-      });
-      timeEl.textContent = `${time} ${date}`;
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const day = String(now.getDate()).padStart(2, '0');
+      timeEl.textContent = `${time} ${year}-${month}-${day}`;
     }
   }
 
-  updateTime();
+  function setupClock() {
+    updateTime();
+  }
+
+  setupClock();
   setInterval(updateTime, 1000);
+  document.addEventListener('astro:after-swap', setupClock);
 </script>
 
 <style>
@@ -62,36 +66,55 @@ const tabs = [
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 var(--es-space-2);
     background-color: var(--es-bg0);
     color: var(--es-fg);
-    font-size: var(--es-text-sm);
-    height: 1.75rem;
+    font-size: 12px;
+    height: 20px;
     flex-shrink: 0;
   }
 
   .tmux-left {
     display: flex;
     align-items: center;
-    gap: var(--es-space-1);
+    height: 100%;
   }
 
   .tmux-session {
     color: var(--es-black);
     background-color: var(--es-green);
-    padding: 0 var(--es-space-2);
+    padding: 0 8px;
     font-weight: bold;
     text-decoration: none;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+
+  /* Arrow pointing right after [error-signal] */
+  .tmux-session::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: -10px;
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-left: 10px solid var(--es-green);
+    z-index: 10;
   }
 
   .tmux-tabs {
     display: flex;
+    align-items: center;
+    margin-left: 14px;
   }
 
   .tmux-tab {
     color: var(--es-grey);
     text-decoration: none;
-    padding: 0 var(--es-space-2);
+    padding: 0 8px;
     transition: color var(--es-duration-fast);
   }
 
@@ -101,48 +124,135 @@ const tabs = [
 
   .tmux-tab.active {
     color: var(--es-fg);
-    background-color: var(--es-bg3);
   }
 
   .tmux-right {
     display: flex;
     align-items: center;
-    gap: var(--es-space-3);
+    height: 100%;
   }
 
+  /* INSERT/NORMAL mode indicator */
   .tmux-hints {
-    color: var(--es-green);
-    font-size: var(--es-text-xs);
+    color: var(--es-black);
+    background-color: var(--es-green);
     font-weight: bold;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 8px 0 16px;
+    position: relative;
+  }
+
+  /* Left-pointing arrow (carve out from INSERT) */
+  .tmux-hints::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-top: 10px solid var(--es-bg0);
+    border-bottom: 10px solid var(--es-bg0);
+    border-right: 10px solid transparent;
   }
 
   :global(.tmux-hints.normal-mode) {
-    color: var(--es-blue);
+    background-color: var(--es-blue);
   }
 
+  /* Path section */
   .tmux-path {
-    color: var(--es-blue);
+    color: var(--es-fg);
+    background-color: var(--es-bg4);
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 8px 0 16px;
+    position: relative;
+    font-weight: bold;
   }
 
+  /* Left-pointing arrow (carve out from path, showing INSERT color) */
+  .tmux-path::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-top: 10px solid var(--es-green);
+    border-bottom: 10px solid var(--es-green);
+    border-right: 10px solid transparent;
+  }
+
+  :global(.tmux-hints.normal-mode ~ .tmux-path)::before {
+    border-top-color: var(--es-blue);
+    border-bottom-color: var(--es-blue);
+  }
+
+  /* Time section */
   .tmux-time {
-    color: var(--es-fg);
-    background-color: var(--es-bg3);
-    padding: 0 var(--es-space-2);
+    color: var(--es-black);
+    background-color: var(--es-orange);
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 8px 0 16px;
+    position: relative;
+    font-weight: bold;
+  }
+
+  /* Left-pointing arrow (carve out from time, showing path color) */
+  .tmux-time::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-top: 10px solid var(--es-bg4);
+    border-bottom: 10px solid var(--es-bg4);
+    border-right: 10px solid transparent;
   }
 
   @media (max-width: 640px) {
-    .tmux-hints {
-      display: none;
+    .tmux-bar {
+      font-size: 11px;
+      height: 18px;
     }
 
     .tmux-tab {
-      padding: 0 var(--es-space-1);
-      font-size: var(--es-text-xs);
+      padding: 0 4px;
     }
 
     .tmux-session {
-      font-size: var(--es-text-xs);
-      padding: 0 var(--es-space-1);
+      padding: 0 4px;
+    }
+
+    .tmux-session::after {
+      right: -9px;
+      border-top-width: 9px;
+      border-bottom-width: 9px;
+      border-left-width: 9px;
+    }
+
+    .tmux-tabs {
+      margin-left: 12px;
+    }
+
+    .tmux-hints,
+    .tmux-path,
+    .tmux-time {
+      padding: 0 4px 0 12px;
+    }
+
+    .tmux-hints::before,
+    .tmux-path::before,
+    .tmux-time::before {
+      border-top-width: 9px;
+      border-bottom-width: 9px;
+      border-right-width: 9px;
     }
   }
 </style>
