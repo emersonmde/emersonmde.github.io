@@ -1,7 +1,15 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { projects } from '../data/projects';
+import { getCollection } from 'astro:content';
 import { AUTHOR, SOCIAL } from '../consts';
+
+const projectEntries = await getCollection('projects');
+const projects = projectEntries
+  .map((entry) => ({
+    ...entry.data,
+    languageColor: entry.data.language === 'c' ? 'var(--es-blue)' : 'var(--es-orange)',
+  }))
+  .sort((a, b) => a.order - b.order);
 ---
 
 <BaseLayout
@@ -35,6 +43,10 @@ import { AUTHOR, SOCIAL } from '../consts';
               class="project-row"
               data-project={project.name}
               data-index={index}
+              data-github={project.github}
+              data-demo={project.demo || ''}
+              data-docs={project.docs || ''}
+              data-crate={project.crate || ''}
               tabindex="0"
               role="button"
               aria-expanded={index === 0 ? "true" : "false"}
@@ -575,25 +587,26 @@ import { AUTHOR, SOCIAL } from '../consts';
       e.preventDefault();
       const prevIndex = focusedIndex > 0 ? focusedIndex - 1 : rows.length - 1;
       rows[prevIndex].focus();
-    } else if (e.key === 'g' && document.activeElement?.classList.contains('project-row')) {
-      e.preventDefault();
-      const projectName = document.activeElement.getAttribute('data-project');
-      const project = projects.find((p) => p.name === projectName);
-      if (project?.github) window.open(project.github, '_blank');
+    } else if (document.activeElement?.classList.contains('project-row')) {
+      const row = document.activeElement as HTMLElement;
+      const github = row.dataset.github;
+      const demo = row.dataset.demo;
+      const docs = row.dataset.docs;
+      const crate = row.dataset.crate;
+
+      if (e.key === 'g' && github) {
+        e.preventDefault();
+        window.open(github, '_blank');
+      } else if (e.key === 'd' && demo) {
+        e.preventDefault();
+        window.open(demo, '_blank');
+      } else if (e.key === 'r' && docs) {
+        e.preventDefault();
+        window.open(docs, '_blank');
+      } else if (e.key === 'c' && crate) {
+        e.preventDefault();
+        window.open(crate, '_blank');
+      }
     }
   });
-
-  const projects = [
-    { name: 'coppermind', github: 'https://github.com/emersonmde/coppermind' },
-    { name: 'anchor-chain', github: 'https://github.com/emersonmde/anchor-chain' },
-    { name: 'daedalus', github: 'https://github.com/emersonmde/daedalus' },
-    { name: 'railyard', github: 'https://github.com/emersonmde/railyard' },
-    { name: 'nenya', github: 'https://github.com/emersonmde/nenya' },
-    { name: 'atium', github: 'https://github.com/emersonmde/atium' },
-    { name: 'reprisedb', github: 'https://github.com/emersonmde/reprisedb' },
-    { name: 'bloombox', github: 'https://github.com/emersonmde/bloombox' },
-    { name: 'double_barrel', github: 'https://github.com/emersonmde/double_barrel' },
-    { name: 'palantir', github: 'https://github.com/emersonmde/palantir' },
-    { name: 'chip8-emulator', github: 'https://github.com/emersonmde/chip8-emulator' },
-  ];
 </script>
