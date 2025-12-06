@@ -16,7 +16,7 @@ const tabs = [
 
 <div class="tmux-bar">
   <div class="tmux-left">
-    <span class="tmux-session">[error-signal]</span>
+    <a href="/" class="tmux-session">[error-signal]</a>
     <nav class="tmux-tabs">
       {tabs.map((tab, index) => (
         <a
@@ -81,6 +81,7 @@ const tabs = [
     background-color: var(--es-green);
     padding: 0 var(--es-space-2);
     font-weight: bold;
+    text-decoration: none;
   }
 
   .tmux-tabs {

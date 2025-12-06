@@ -521,23 +521,35 @@ const projects = projectEntries
     }
   }
 
-  const showMoreBtn = document.getElementById('show-more-btn');
-  const projectsList = document.getElementById('projects-list');
+  function setupShowMore() {
+    const showMoreBtn = document.getElementById('show-more-btn');
+    const projectsList = document.getElementById('projects-list');
 
-  showMoreBtn?.addEventListener('click', () => {
-    projectsList?.classList.add('show-all');
-    showMoreBtn.setAttribute('aria-hidden', 'true');
-    setTimeout(() => {
-      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-    }, 50);
-  });
+    // Reset state on navigation
+    projectsList?.classList.remove('show-all');
+    document.querySelectorAll('.project-row').forEach(row => {
+      row.classList.remove('hidden-overflow');
+    });
 
-  calculateVisibleProjects();
+    showMoreBtn?.addEventListener('click', () => {
+      projectsList?.classList.add('show-all');
+      showMoreBtn.setAttribute('aria-hidden', 'true');
+      setTimeout(() => {
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+      }, 50);
+    });
+
+    calculateVisibleProjects();
+  }
+
+  setupShowMore();
+  document.addEventListener('astro:after-swap', setupShowMore);
 
   let resizeTimeout: number;
   window.addEventListener('resize', () => {
     clearTimeout(resizeTimeout);
     resizeTimeout = window.setTimeout(() => {
+      const projectsList = document.getElementById('projects-list');
       if (!projectsList?.classList.contains('show-all')) calculateVisibleProjects();
     }, 150);
   });
