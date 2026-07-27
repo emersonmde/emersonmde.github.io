@@ -1,0 +1,67 @@
+---
+/**
+ * The page served at every old errorsignal.dev URL after the move to
+ * memerson.com.
+ *
+ * GitHub Pages cannot emit a 301, so an instant `<meta http-equiv="refresh">`
+ * is the strongest redirect available here. Google documents that it
+ * interprets an instant (0-second) meta refresh as a permanent redirect:
+ * https://developers.google.com/search/docs/crawling-indexing/301-redirects
+ *
+ * Deliberately *not* built with Astro's `redirects:` config. That emits the
+ * same meta refresh but also stamps `<meta name="robots" content="noindex">`
+ * on the page. noindex blocks the old URL from Search outright rather than
+ * consolidating its signals onto the new one, which is the opposite of what a
+ * site move wants — Google's canonicalization guidance says not to use it for
+ * this:
+ * https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls
+ *
+ * `rel="canonical"` is set as well. Redirects are the strongest canonical
+ * signal and rel="canonical" is the next strongest, so both are pointed at the
+ * same place.
+ */
+interface Props {
+  /** Absolute destination on memerson.com. Include the trailing slash — both
+   * sites build directory-format URLs, and omitting it costs an extra hop. */
+  to: string;
+}
+
+const { to } = Astro.props;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="refresh" content={`0;url=${to}`} />
+    <link rel="canonical" href={to} />
+    <title>Moved to memerson.com</title>
+    <style>
+      html {
+        color-scheme: dark;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-content: center;
+        gap: 0.75rem;
+        padding: 2rem;
+        background: #0b0d12;
+        color: #c8cfdc;
+        font: 400 14px/1.6 ui-monospace, 'JetBrains Mono', Menlo, monospace;
+        text-align: center;
+      }
+      p {
+        margin: 0;
+      }
+      a {
+        color: #7fd4ff;
+      }
+    </style>
+  </head>
+  <body>
+    <p>This site has moved to <a href="https://memerson.com/">memerson.com</a>.</p>
+    <p>Redirecting to <a href={to}>{to}</a>&hellip;</p>
+  </body>
+</html>

@@ -1,50 +1,52 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+/**
+ * Deliberately *not* an auto-redirect. Every real old URL has its own redirect
+ * page, so anything reaching this one is a path that never existed — and
+ * Google's guidance is not to funnel unknown 404s to a homepage, which reads
+ * as a soft 404. A notice with a link is the honest version.
+ *
+ * Note this is also the 404 for the project sites sharing errorsignal.dev
+ * (/coppermind/ and friends), which is another reason it must not redirect.
+ */
 ---
 
-<BaseLayout title="404: Not Found" virtualPath="~">
-  <div class="error-page">
-    <h1 class="error-code">404</h1>
-    <p class="error-message">
-      <span class="text-red">error:</span> path not found
-    </p>
-    <p class="error-hint">
-      The requested resource does not exist. Try navigating to a valid path.
-    </p>
-    <div class="error-actions">
-      <a href="/" class="error-link">[back to ~/projects]</a>
-    </div>
-  </div>
-</BaseLayout>
-
-<style>
-  .error-page {
-    text-align: center;
-    padding: var(--es-space-12) var(--es-space-4);
-  }
-
-  .error-code {
-    font-size: var(--es-text-3xl);
-    color: var(--es-red);
-    margin-bottom: var(--es-space-4);
-  }
-
-  .error-message {
-    font-size: var(--es-text-lg);
-    margin-bottom: var(--es-space-4);
-  }
-
-  .error-hint {
-    color: var(--es-grey);
-    margin-bottom: var(--es-space-6);
-  }
-
-  .error-link {
-    color: var(--es-blue);
-    text-decoration: none;
-  }
-
-  .error-link:hover {
-    color: var(--es-green);
-  }
-</style>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>404 — not found</title>
+    <style>
+      html {
+        color-scheme: dark;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-content: center;
+        gap: 0.75rem;
+        padding: 2rem;
+        background: #0b0d12;
+        color: #c8cfdc;
+        font: 400 14px/1.6 ui-monospace, 'JetBrains Mono', Menlo, monospace;
+        text-align: center;
+      }
+      h1 {
+        margin: 0;
+        font-size: 2rem;
+        color: #ff6b81;
+      }
+      p {
+        margin: 0;
+      }
+      a {
+        color: #7fd4ff;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>404</h1>
+    <p>This page does not exist.</p>
+    <p>errorsignal.dev has moved to <a href="https://memerson.com/">memerson.com</a>.</p>
+  </body>
+</html>

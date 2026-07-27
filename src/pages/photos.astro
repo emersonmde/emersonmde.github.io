@@ -1,14 +1,11 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import PhotoGallery from '../components/PhotoGallery';
+import Moved from '../layouts/Moved.astro';
+
+/**
+ * The one shape change in the move: /photos was a single page here and is
+ * paginated on memerson.com, so this points at the new first page. The old
+ * site had no /photos/2..4 to map.
+ */
 ---
 
-<BaseLayout
-  title="Photos"
-  description="Personal photography gallery"
-  virtualPath="~/photos"
-  statusHints="INSERT"
-  activeTab="photos"
->
-  <PhotoGallery client:load />
-</BaseLayout>
+<Moved to="https://memerson.com/photos/" />
